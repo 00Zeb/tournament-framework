@@ -14,7 +14,12 @@ program
   .version('1.0.0');
 
 const container = DependencyContainer.createDefault();
-const tournament = new Tournament(container);
+const dependencies = {
+  fileService: container.get('fileService'),
+  cardService: container.get('cardService'),
+  randomService: container.get('randomService')
+};
+const tournament = new Tournament(dependencies);
 
 program
   .command('create <name>')
