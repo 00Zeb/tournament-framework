@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= tournament.name %> - Tournament Framework</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1><a href="/">🏆 Tournament Framework</a></h1>
+        <h2><%= tournament.name %></h2>
+        <div class="tournament-info">
+            <span class="info-item">Game: <%= tournament.settings.gameType %></span>
+            <span class="info-item">Max Rounds: <%= tournament.settings.maxRounds %></span>
+            <span class="info-item">Match Type: <%= tournament.settings.matchType %></span>
+        </div>
+    </header>
+
+    <main>
+        <div class="content-grid">
+            <section class="standings-section">
+                <h3>🏅 Current Standings</h3>
+                <% if (standings.length === 0) { %>
+                    <p class="empty-message">No participants yet. Add bots using the CLI tool.</p>
+                <% } else { %>
+                    <table class="standings-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Bot</th>
+                                <th>Games</th>
+                                <th>Wins</th>
+                                <th>Losses</th>
+                                <th>Draws</th>
+                                <th>Win Rate</th>
+                                <th>Avg Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% standings.forEach((participant, index) => { %>
+                                <tr class="<%= index === 0 ? 'winner' : '' %>">
+                                    <td><%= index + 1 %></td>
+                                    <td class="bot-name"><%= participant.name %></td>
+                                    <td><%= participant.gamesPlayed %></td>
+                                    <td class="wins"><%= participant.wins %></td>
+                                    <td class="losses"><%= participant.losses %></td>
+                                    <td class="draws"><%= participant.draws %></td>
+                                    <td class="win-rate"><%= (participant.winRate * 100).toFixed(1) %>%</td>
+                                    <td class="avg-score"><%= participant.avgScore.toFixed(2) %></td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                <% } %>
+            </section>
+
+            <section class="recent-matches-section">
+                <h3>🎮 Recent Matches</h3>
+                <% if (recentMatches.length === 0) { %>
+                    <p class="empty-message">No matches played yet.</p>
+                <% } else { %>
+                    <div class="matches-list">
+                        <% recentMatches.forEach(match => { %>
+                            <div class="match-card">
+                                <div class="match-header">
+                                    <div class="match-participants">
+                                        <span class="participant <%= match.result.winner && match.result.winner.name === match.participants[0] ? 'winner' : '' %>">
+                                            <%= match.participants[0] %>
+                                        </span>
+                                        <span class="vs">vs</span>
+                                        <span class="participant <%= match.result.winner && match.result.winner.name === match.participants[1] ? 'winner' : '' %>">
+                                            <%= match.participants[1] %>
+                                        </span>
+                                    </div>
+                                    <div class="match-time">
+                                        <%= new Date(match.endTime).toLocaleString() %>
+                                    </div>
+                                </div>
+                                <div class="match-result">
+                                    <div class="winner-info">
+                                        Winner: <strong><%= match.result.winner ? match.result.winner.name : 'Draw' %></strong>
+                                    </div>
+                                    <div class="scores">
+                                        <% match.result.players.forEach(player => { %>
+                                            <div class="player-score">
+                                                <%= player.name %>: <%= player.score %> 
+                                                <small>(<%= player.correctGuesses %>✓ <%= player.incorrectGuesses %>✗ <%= player.ties %>→)</small>
+                                            </div>
+                                        <% }); %>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% } %>
+            </section>
+        </div>
+
+        <div class="actions">
+            <button onclick="refreshData()" class="refresh-btn">🔄 Refresh Data</button>
+            <button onclick="toggleAutoRefresh()" class="auto-refresh-btn" id="autoRefreshBtn">▶️ Auto Refresh</button>
+        </div>
+    </main>
+
+    <footer>
+        <p><a href="/">← Back to Tournaments</a></p>
+    </footer>
+
+    <script>
+        let autoRefreshInterval = null;
+        let autoRefreshActive = false;
+
+        function refreshData() {
+            location.reload();
+        }
+
+        function toggleAutoRefresh() {
+            const btn = document.getElementById('autoRefreshBtn');
+            
+            if (autoRefreshActive) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshActive = false;
+                btn.textContent = '▶️ Auto Refresh';
+                btn.classList.remove('active');
+            } else {
+                autoRefreshInterval = setInterval(refreshData, 5000);
+                autoRefreshActive = true;
+                btn.textContent = '⏸️ Stop Auto Refresh';
+                btn.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
