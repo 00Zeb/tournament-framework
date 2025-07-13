@@ -11,8 +11,12 @@ class Tournament {
   /**
    * Detect tournament mode based on game type naming convention
    * Games ending with "-many" = free-for-all, others = round-robin
+   * Special case: blackjack always uses free-for-all because all players play against the bank
    */
   detectTournamentMode(gameType) {
+    if (gameType === 'blackjack') {
+      return 'free-for-all';
+    }
     return gameType.endsWith('-many') ? 'free-for-all' : 'round-robin';
   }
 
