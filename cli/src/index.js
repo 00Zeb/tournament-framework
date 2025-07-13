@@ -188,7 +188,14 @@ program
       console.log(chalk.bold(`Winner: ${match.result.winner ? match.result.winner.name : 'Draw'}`));
       
       match.result.players.forEach(player => {
-        console.log(`  ${player.name}: ${player.score} points (${player.correctGuesses} correct, ${player.incorrectGuesses} incorrect, ${player.ties} ties)`);
+        let playerDisplay = `  ${player.name}: ${player.score} points (${player.correctGuesses} correct, ${player.incorrectGuesses} incorrect, ${player.ties} ties`;
+        
+        if (player.disqualifications > 0) {
+          playerDisplay += `, ${chalk.red(player.disqualifications + ' disqualifications')}`;
+        }
+        
+        playerDisplay += ')';
+        console.log(playerDisplay);
       });
       
     } catch (error) {
@@ -268,8 +275,8 @@ program
       }
       
       console.log(chalk.bold(`\\nStandings for '${tournamentName}':`));
-      console.log(chalk.gray('Rank | Name | Games | Wins | Losses | Draws | Win Rate | Avg Score'));
-      console.log(chalk.gray('-----|------|-------|------|--------|-------|----------|----------'));
+      console.log(chalk.gray('Rank | Name | Games | Wins | Losses | Draws | DQs | Win Rate | Avg Score'));
+      console.log(chalk.gray('-----|------|-------|------|--------|-------|-----|----------|----------'));
       
       standings.forEach((participant, index) => {
         const rank = (index + 1).toString().padStart(4);
@@ -278,10 +285,16 @@ program
         const wins = participant.wins.toString().padStart(4);
         const losses = participant.losses.toString().padStart(6);
         const draws = participant.draws.toString().padStart(5);
+        const dqs = participant.disqualifications.toString().padStart(3);
         const winRate = (participant.winRate * 100).toFixed(1).padStart(8) + '%';
         const avgScore = participant.avgScore.toFixed(2).padStart(8);
         
-        console.log(`${rank} | ${name} | ${games} | ${wins} | ${losses} | ${draws} | ${winRate} | ${avgScore}`);
+        let rowColor = chalk.white;
+        if (participant.disqualifications > 0) {
+          rowColor = chalk.red; // Highlight bots with disqualifications
+        }
+        
+        console.log(rowColor(`${rank} | ${name} | ${games} | ${wins} | ${losses} | ${draws} | ${dqs} | ${winRate} | ${avgScore}`));
       });
       
     } catch (error) {

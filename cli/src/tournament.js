@@ -69,6 +69,7 @@ class Tournament {
         wins: 0,
         losses: 0,
         draws: 0,
+        disqualifications: 0,
         totalScore: 0
       }
     };
@@ -178,17 +179,28 @@ class Tournament {
     const winner = match.result.winner;
     const players = match.result.players;
     
+    // Count disqualifications for each player
+    const disqualifiedPlayers = players.filter(player => player.disqualifications > 0);
+    
     players.forEach(player => {
       const participant = tournament.participants.find(p => p.name === player.name);
       if (participant) {
         participant.stats.gamesPlayed++;
         participant.stats.totalScore += player.score;
+        participant.stats.disqualifications += player.disqualifications || 0;
         
-        if (winner && winner.name === player.name) {
+        // Determine win/loss/draw based on game outcome and disqualifications
+        if (player.disqualifications > 0) {
+          // Player was disqualified, count as loss
+          participant.stats.losses++;
+        } else if (winner && winner.name === player.name) {
+          // Player won legitimately
           participant.stats.wins++;
         } else if (winner) {
+          // Player lost legitimately
           participant.stats.losses++;
         } else {
+          // Game was a draw
           participant.stats.draws++;
         }
       }
@@ -205,6 +217,7 @@ class Tournament {
         wins: p.stats.wins,
         losses: p.stats.losses,
         draws: p.stats.draws,
+        disqualifications: p.stats.disqualifications,
         totalScore: p.stats.totalScore,
         winRate: p.stats.gamesPlayed > 0 ? (p.stats.wins / p.stats.gamesPlayed) : 0,
         avgScore: p.stats.gamesPlayed > 0 ? (p.stats.totalScore / p.stats.gamesPlayed) : 0
@@ -287,6 +300,7 @@ class Tournament {
           wins: 0,
           losses: 0,
           draws: 0,
+          disqualifications: 0,
           totalScore: 0
         }
       };

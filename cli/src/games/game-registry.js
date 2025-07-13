@@ -117,7 +117,7 @@ class GameRegistry {
             const BotClass = require(botPath);
             
             // Check if it's a valid bot (has required methods)
-            if (typeof BotClass === 'function') {
+            if (typeof BotClass === 'function' && this._isValidBotClass(BotClass)) {
               bots.push({
                 name: botName,
                 path: botPath,
@@ -125,6 +125,8 @@ class GameRegistry {
                 className: BotClass.name || botName,
                 description: this._getBotDescription(BotClass)
               });
+            } else {
+              console.warn(`Bot ${entry.name} failed validation: Invalid bot class structure`);
             }
           } catch (error) {
             console.warn(`Failed to load bot ${entry.name}: ${error.message}`);
@@ -136,6 +138,42 @@ class GameRegistry {
     }
 
     return bots;
+  }
+
+  /**
+   * Validate that a bot class follows the proper interface
+   */
+  _isValidBotClass(BotClass) {
+    try {
+      // Check if it's a constructor function
+      if (typeof BotClass !== 'function') {
+        return false;
+      }
+
+      // Try to create an instance with minimal dependencies
+      const mockDependencies = {
+        randomService: { chance: () => true, shuffle: (arr) => arr },
+        fileService: {}
+      };
+      
+      const instance = new BotClass('test', mockDependencies);
+      
+      // Check if it has the required makeMove method
+      if (typeof instance.makeMove !== 'function') {
+        return false;
+      }
+
+      // Check if it has basic bot interface methods
+      if (typeof instance.getName !== 'function' || 
+          typeof instance.getDescription !== 'function') {
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      // If we can't instantiate it or it throws errors, it's invalid
+      return false;
+    }
   }
 
   /**

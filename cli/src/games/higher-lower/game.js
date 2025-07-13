@@ -17,7 +17,8 @@ class HigherLowerGame {
         score: 0,
         correctGuesses: 0,
         incorrectGuesses: 0,
-        ties: 0
+        ties: 0,
+        disqualifications: 0
       })),
       currentPlayerIndex: 0,
       round: 1,
@@ -46,22 +47,38 @@ class HigherLowerGame {
     const gameStateForPlayer = this.getGameStateForPlayer();
     
     let guess;
+    let isDisqualified = false;
+    let disqualificationReason = null;
+    
     try {
       guess = await currentPlayer.bot.makeMove(gameStateForPlayer);
     } catch (error) {
-      guess = 'higher';
+      isDisqualified = true;
+      disqualificationReason = `Bot crashed during makeMove(): ${error.message}`;
+      guess = 'higher'; // fallback for card dealing
     }
 
-    if (!this.cardService.isValidGuess(guess)) {
-      guess = 'higher';
+    if (!isDisqualified && !this.cardService.isValidGuess(guess)) {
+      isDisqualified = true;
+      disqualificationReason = `Invalid guess returned: '${guess}'. Must be 'higher' or 'lower'`;
+      guess = 'higher'; // fallback for card dealing
     }
 
     const nextCard = this.cardService.dealCard(this.gameState.deck);
-    const result = this.cardService.checkGuess(
-      this.gameState.currentCard,
-      nextCard,
-      guess
-    );
+    let result;
+    let score;
+
+    if (isDisqualified) {
+      result = 'disqualified';
+      score = this.calculateScore(result);
+    } else {
+      result = this.cardService.checkGuess(
+        this.gameState.currentCard,
+        nextCard,
+        guess
+      );
+      score = this.calculateScore(result);
+    }
 
     const roundResult = {
       round: this.gameState.round,
@@ -70,7 +87,9 @@ class HigherLowerGame {
       nextCard: { ...nextCard },
       guess,
       result,
-      score: this.calculateScore(result)
+      score,
+      disqualified: isDisqualified,
+      disqualificationReason: disqualificationReason
     };
 
     this.updatePlayerStats(currentPlayer, result, roundResult.score);
@@ -94,6 +113,7 @@ class HigherLowerGame {
       case 'correct': return 1;
       case 'tie': return 0;
       case 'incorrect': return -1;
+      case 'disqualified': return -2; // Penalty for disqualification
       default: return 0;
     }
   }
@@ -111,6 +131,9 @@ class HigherLowerGame {
       case 'incorrect':
         player.incorrectGuesses++;
         break;
+      case 'disqualified':
+        player.disqualifications++;
+        break;
     }
   }
 
@@ -125,7 +148,8 @@ class HigherLowerGame {
         score: player.score,
         correctGuesses: player.correctGuesses,
         incorrectGuesses: player.incorrectGuesses,
-        ties: player.ties
+        ties: player.ties,
+        disqualifications: player.disqualifications
       }))
     };
   }
@@ -166,7 +190,8 @@ class HigherLowerGame {
         score: player.score,
         correctGuesses: player.correctGuesses,
         incorrectGuesses: player.incorrectGuesses,
-        ties: player.ties
+        ties: player.ties,
+        disqualifications: player.disqualifications
       })),
       totalRounds: this.gameState.round - 1,
       history: this.gameState.history
