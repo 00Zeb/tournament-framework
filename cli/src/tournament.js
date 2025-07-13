@@ -8,6 +8,14 @@ class Tournament {
     this.tournaments = new Map();
   }
 
+  /**
+   * Detect tournament mode based on game type naming convention
+   * Games ending with "-many" = free-for-all, others = round-robin
+   */
+  detectTournamentMode(gameType) {
+    return gameType.endsWith('-many') ? 'free-for-all' : 'round-robin';
+  }
+
   async createTournament(name, options = {}) {
     if (this.tournaments.has(name)) {
       throw new Error(`Tournament '${name}' already exists`);
@@ -16,6 +24,9 @@ class Tournament {
     if (!options.gameType) {
       throw new Error('Game type is required. Use: tournament games to see available types');
     }
+
+    // Auto-detect tournament mode based on game type naming convention
+    const detectedMatchType = this.detectTournamentMode(options.gameType);
 
     const tournament = {
       id: this.generateId(),
@@ -28,7 +39,7 @@ class Tournament {
       settings: {
         gameType: options.gameType,
         maxRounds: options.maxRounds || 10,
-        matchType: options.matchType || 'round-robin',
+        matchType: detectedMatchType,
         ...options
       }
     };
@@ -165,6 +176,63 @@ class Tournament {
     }
 
     return results;
+  }
+
+  /**
+   * Run a free-for-all match with all participants in a single game
+   */
+  async runFreeForAllMatch(tournamentName) {
+    const tournament = this.tournaments.get(tournamentName) || await this.loadTournament(tournamentName);
+    
+    if (tournament.participants.length < 2) {
+      throw new Error('Need at least 2 participants to run a free-for-all match');
+    }
+
+    // Load all bots and create players array
+    const players = [];
+    for (const participant of tournament.participants) {
+      const bot = await this.loadBot(participant.botPath);
+      players.push({ name: participant.name, bot: bot });
+    }
+
+    const dependencies = {
+      randomService: this.randomService,
+      fileService: this.fileService
+    };
+    const game = gameRegistry.createGame(tournament.settings.gameType, dependencies, players);
+    
+    const gameStart = new Date().toISOString();
+    
+    // Notify all bots that the game is starting
+    players.forEach(player => {
+      const opponents = players.filter(p => p.name !== player.name).map(p => p.name);
+      player.bot.onGameStart({ tournament: tournamentName, opponents: opponents });
+    });
+    
+    const gameResult = await game.playFullGame();
+    const gameEnd = new Date().toISOString();
+    
+    // Notify all bots that the game has ended
+    players.forEach(player => {
+      player.bot.onGameEnd(gameResult.gameResult);
+    });
+
+    const match = {
+      id: this.generateId(),
+      tournament: tournamentName,
+      participants: players.map(p => p.name),
+      startTime: gameStart,
+      endTime: gameEnd,
+      result: gameResult.gameResult,
+      rounds: gameResult.roundResults,
+      matchType: 'free-for-all'
+    };
+
+    tournament.matches.push(match);
+    this.updateParticipantStats(tournament, match);
+    await this.saveTournament(tournament);
+    
+    return [match]; // Return as array for consistency with runRound
   }
 
   generateMatchups(participants) {
@@ -336,8 +404,10 @@ class Tournament {
       throw new Error(`Need at least 2 participants to run a tournament. Found ${updatedTournament.participants.length} bots.`);
     }
 
-    // Run a full round robin
-    const matches = await this.runRound(tournamentName);
+    // Run tournament based on detected match type
+    const matches = updatedTournament.settings.matchType === 'free-for-all' 
+      ? await this.runFreeForAllMatch(tournamentName)
+      : await this.runRound(tournamentName);
     
     // Get final standings
     const standings = await this.getStandings(tournamentName);

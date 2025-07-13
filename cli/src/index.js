@@ -23,9 +23,8 @@ const tournament = new Tournament(dependencies);
 
 program
   .command('create <name> <game-type>')
-  .description(`Create a new tournament. Available game types: ${gameRegistry.getAvailableGameTypes().join(', ')}`)
+  .description(`Create a new tournament. Games ending with '-many' use free-for-all mode, others use round-robin. Available: ${gameRegistry.getAvailableGameTypes().join(', ')}`)
   .option('-r, --max-rounds <number>', 'Maximum rounds per game', '10')
-  .option('-m, --match-type <type>', 'Match type (round-robin)', 'round-robin')
   .action(async (name, gameType, options) => {
     try {
       if (!gameRegistry.isValidGameType(gameType)) {
@@ -35,13 +34,13 @@ program
       
       const tournamentData = await tournament.createTournament(name, {
         gameType: gameType,
-        maxRounds: parseInt(options.maxRounds),
-        matchType: options.matchType
+        maxRounds: parseInt(options.maxRounds)
       });
       
       console.log(chalk.green(`✓ Tournament '${name}' created successfully`));
       console.log(chalk.gray(`  ID: ${tournamentData.id}`));
       console.log(chalk.gray(`  Game Type: ${tournamentData.settings.gameType}`));
+      console.log(chalk.gray(`  Tournament Mode: ${tournamentData.settings.matchType}`));
       console.log(chalk.gray(`  Max Rounds: ${tournamentData.settings.maxRounds}`));
     } catch (error) {
       console.error(chalk.red(`✗ Error creating tournament: ${error.message}`));
