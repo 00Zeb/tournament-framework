@@ -22,20 +22,19 @@ const dependencies = {
 const tournament = new Tournament(dependencies);
 
 program
-  .command('create <name>')
-  .description('Create a new tournament')
-  .option('-g, --game-type <type>', `Game type (${gameRegistry.getAvailableGameTypes().join(', ')})`, 'higher-lower')
+  .command('create <name> <game-type>')
+  .description(`Create a new tournament. Available game types: ${gameRegistry.getAvailableGameTypes().join(', ')}`)
   .option('-r, --max-rounds <number>', 'Maximum rounds per game', '10')
   .option('-m, --match-type <type>', 'Match type (round-robin)', 'round-robin')
-  .action(async (name, options) => {
+  .action(async (name, gameType, options) => {
     try {
-      if (!gameRegistry.isValidGameType(options.gameType)) {
-        console.error(chalk.red(`✗ Invalid game type '${options.gameType}'. Available types: ${gameRegistry.getAvailableGameTypes().join(', ')}`));
+      if (!gameRegistry.isValidGameType(gameType)) {
+        console.error(chalk.red(`✗ Invalid game type '${gameType}'. Available types: ${gameRegistry.getAvailableGameTypes().join(', ')}`));
         process.exit(1);
       }
       
       const tournamentData = await tournament.createTournament(name, {
-        gameType: options.gameType,
+        gameType: gameType,
         maxRounds: parseInt(options.maxRounds),
         matchType: options.matchType
       });

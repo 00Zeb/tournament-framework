@@ -13,6 +13,10 @@ class Tournament {
       throw new Error(`Tournament '${name}' already exists`);
     }
 
+    if (!options.gameType) {
+      throw new Error('Game type is required. Use: tournament games to see available types');
+    }
+
     const tournament = {
       id: this.generateId(),
       name,
@@ -22,7 +26,7 @@ class Tournament {
       matches: [],
       standings: [],
       settings: {
-        gameType: options.gameType || 'higher-lower',
+        gameType: options.gameType,
         maxRounds: options.maxRounds || 10,
         matchType: options.matchType || 'round-robin',
         ...options
