@@ -251,30 +251,43 @@ class Tournament {
     const winner = match.result.winner;
     const players = match.result.players;
     
+    // Check if this is a free-for-all match
+    const isFreeForAll = match.matchType === 'free-for-all';
+    
     // Count disqualifications for each player
     const disqualifiedPlayers = players.filter(player => player.disqualifications > 0);
     
     players.forEach(player => {
       const participant = tournament.participants.find(p => p.name === player.name);
       if (participant) {
-        participant.stats.gamesPlayed++;
+        if (isFreeForAll) {
+          // For free-for-all: each round counts as a separate game
+          participant.stats.gamesPlayed += (player.roundWins + player.roundLosses + player.roundTies);
+          participant.stats.wins += player.roundWins;
+          participant.stats.losses += player.roundLosses;
+          participant.stats.draws += player.roundTies;
+        } else {
+          // For round-robin: traditional single game statistics
+          participant.stats.gamesPlayed++;
+          
+          // Determine win/loss/draw based on game outcome and disqualifications
+          if (player.disqualifications > 0) {
+            // Player was disqualified, count as loss
+            participant.stats.losses++;
+          } else if (winner && winner.name === player.name) {
+            // Player won legitimately
+            participant.stats.wins++;
+          } else if (winner) {
+            // Player lost legitimately
+            participant.stats.losses++;
+          } else {
+            // Game was a draw
+            participant.stats.draws++;
+          }
+        }
+        
         participant.stats.totalScore += player.score;
         participant.stats.disqualifications += player.disqualifications || 0;
-        
-        // Determine win/loss/draw based on game outcome and disqualifications
-        if (player.disqualifications > 0) {
-          // Player was disqualified, count as loss
-          participant.stats.losses++;
-        } else if (winner && winner.name === player.name) {
-          // Player won legitimately
-          participant.stats.wins++;
-        } else if (winner) {
-          // Player lost legitimately
-          participant.stats.losses++;
-        } else {
-          // Game was a draw
-          participant.stats.draws++;
-        }
       }
     });
   }
