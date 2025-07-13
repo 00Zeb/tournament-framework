@@ -207,14 +207,10 @@ program
 program
   .command('run <tournament>')
   .description('Run a complete tournament with auto-discovered bots')
-  .option('--no-auto-populate', 'Skip auto-populating bots (use existing participants)')
-  .action(async (tournamentName, options) => {
+  .action(async (tournamentName) => {
     try {
       console.log(chalk.blue(`🏆 Running full tournament '${tournamentName}'`));
-      
-      if (options.autoPopulate !== false) {
-        console.log(chalk.gray('🔍 Auto-discovering available bots...'));
-      }
+      console.log(chalk.gray('🔍 Auto-discovering available bots...'));
       
       const result = await tournament.runFullTournament(tournamentName);
       
@@ -246,6 +242,10 @@ program
   .action(async (tournamentName) => {
     try {
       console.log(chalk.blue(`Running round robin for tournament '${tournamentName}'`));
+      console.log(chalk.gray('🔍 Auto-discovering available bots...'));
+      
+      // Auto-populate bots before running the round
+      await tournament.autoPopulateBots(tournamentName);
       
       const matches = await tournament.runRound(tournamentName);
       
@@ -317,44 +317,5 @@ program
     }
   });
 
-program
-  .command('init-bots')
-  .description('Initialize example bots in the bots directory')
-  .action(async () => {
-    try {
-      const fileService = container.get('fileService');
-      const botsDir = path.join(process.cwd(), 'bots');
-      
-      await fileService.createDirectory(botsDir);
-      
-      const exampleBots = [
-        { name: 'random-bot.js', source: '../src/bots/random-bot.js' },
-        { name: 'smart-bot.js', source: '../src/games/higher-lower/bots/smart-bot.js' },
-        { name: 'counting-bot.js', source: '../src/games/higher-lower/bots/counting-bot.js' }
-      ];
-      
-      for (const bot of exampleBots) {
-        const srcPath = path.join(__dirname, bot.source);
-        const destPath = path.join(botsDir, bot.name);
-        
-        if (await fileService.exists(destPath)) {
-          console.log(chalk.yellow(`⚠ Bot ${bot.name} already exists, skipping`));
-          continue;
-        }
-        
-        const fs = require('fs').promises;
-        await fs.copyFile(srcPath, destPath);
-        console.log(chalk.green(`✓ Created ${bot.name}`));
-      }
-      
-      console.log(chalk.blue(`\\nExample bots initialized in: ${botsDir}`));
-      console.log(chalk.gray('You can now add them to tournaments using:'));
-      console.log(chalk.gray('  tournament add-bot <tournament> <bot-name> ./bots/<bot-file>'));
-      
-    } catch (error) {
-      console.error(chalk.red(`✗ Error initializing bots: ${error.message}`));
-      process.exit(1);
-    }
-  });
 
 program.parse();

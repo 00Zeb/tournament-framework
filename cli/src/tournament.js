@@ -322,10 +322,8 @@ class Tournament {
   async runFullTournament(tournamentName) {
     const tournament = this.tournaments.get(tournamentName) || await this.loadTournament(tournamentName);
     
-    // Auto-populate bots if no participants exist or if requested
-    if (tournament.participants.length === 0) {
-      await this.autoPopulateBots(tournamentName);
-    }
+    // Always auto-populate bots from the game's bots directory
+    await this.autoPopulateBots(tournamentName);
 
     // Reload tournament to get updated participants
     const updatedTournament = this.tournaments.get(tournamentName) || await this.loadTournament(tournamentName);
