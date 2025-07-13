@@ -5,6 +5,7 @@ const chalk = require('chalk');
 const path = require('path');
 const Tournament = require('./tournament');
 const DependencyContainer = require('./utils/dependency-container');
+const gameRegistry = require('./games/game-registry');
 
 const program = new Command();
 
@@ -16,7 +17,6 @@ program
 const container = DependencyContainer.createDefault();
 const dependencies = {
   fileService: container.get('fileService'),
-  cardService: container.get('cardService'),
   randomService: container.get('randomService')
 };
 const tournament = new Tournament(dependencies);
@@ -24,11 +24,16 @@ const tournament = new Tournament(dependencies);
 program
   .command('create <name>')
   .description('Create a new tournament')
-  .option('-g, --game-type <type>', 'Game type (higher-lower)', 'higher-lower')
+  .option('-g, --game-type <type>', `Game type (${gameRegistry.getAvailableGameTypes().join(', ')})`, 'higher-lower')
   .option('-r, --max-rounds <number>', 'Maximum rounds per game', '10')
   .option('-m, --match-type <type>', 'Match type (round-robin)', 'round-robin')
   .action(async (name, options) => {
     try {
+      if (!gameRegistry.isValidGameType(options.gameType)) {
+        console.error(chalk.red(`✗ Invalid game type '${options.gameType}'. Available types: ${gameRegistry.getAvailableGameTypes().join(', ')}`));
+        process.exit(1);
+      }
+      
       const tournamentData = await tournament.createTournament(name, {
         gameType: options.gameType,
         maxRounds: parseInt(options.maxRounds),
@@ -43,6 +48,24 @@ program
       console.error(chalk.red(`✗ Error creating tournament: ${error.message}`));
       process.exit(1);
     }
+  });
+
+program
+  .command('games')
+  .description('List available game types')
+  .action(() => {
+    const games = gameRegistry.getAvailableGames();
+    
+    if (games.length === 0) {
+      console.log(chalk.yellow('No games available'));
+      return;
+    }
+    
+    console.log(chalk.bold('\nAvailable Games:'));
+    games.forEach(game => {
+      console.log(`  ${chalk.cyan(game.gameType)} - ${game.name}`);
+      console.log(chalk.gray(`    ${game.description}`));
+    });
   });
 
 program
@@ -202,8 +225,8 @@ program
       
       const exampleBots = [
         { name: 'random-bot.js', source: '../src/bots/random-bot.js' },
-        { name: 'smart-bot.js', source: '../src/bots/smart-bot.js' },
-        { name: 'counting-bot.js', source: '../src/bots/counting-bot.js' }
+        { name: 'smart-bot.js', source: '../src/games/higher-lower/bots/smart-bot.js' },
+        { name: 'counting-bot.js', source: '../src/games/higher-lower/bots/counting-bot.js' }
       ];
       
       for (const bot of exampleBots) {

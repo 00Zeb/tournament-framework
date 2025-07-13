@@ -49,10 +49,6 @@ class DependencyContainer {
       return new FileService();
     });
 
-    container.register('cardService', (container) => {
-      const CardService = require('../services/card-service');
-      return new CardService(container.get('randomService'));
-    });
 
     return container;
   }
@@ -70,10 +66,6 @@ class DependencyContainer {
       return new MockFileService();
     });
 
-    container.register('cardService', (container) => {
-      const CardService = require('../services/card-service');
-      return new CardService(container.get('randomService'));
-    });
 
     return container;
   }

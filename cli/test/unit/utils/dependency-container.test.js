@@ -88,17 +88,16 @@ describe('DependencyContainer', () => {
       
       expect(defaultContainer.has('randomService')).toBe(true);
       expect(defaultContainer.has('fileService')).toBe(true);
-      expect(defaultContainer.has('cardService')).toBe(true);
     });
 
-    it('should create services that depend on each other', () => {
+    it('should create services', () => {
       const defaultContainer = DependencyContainer.createDefault();
-      
-      const cardService = defaultContainer.get('cardService');
-      expect(cardService).toBeDefined();
       
       const randomService = defaultContainer.get('randomService');
       expect(randomService).toBeDefined();
+      
+      const fileService = defaultContainer.get('fileService');
+      expect(fileService).toBeDefined();
     });
   });
 
@@ -108,7 +107,6 @@ describe('DependencyContainer', () => {
       
       expect(testContainer.has('randomService')).toBe(true);
       expect(testContainer.has('fileService')).toBe(true);
-      expect(testContainer.has('cardService')).toBe(true);
     });
   });
 });

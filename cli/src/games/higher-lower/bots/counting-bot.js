@@ -1,4 +1,4 @@
-const BotInterface = require('./bot-interface');
+const BotInterface = require('../../../bots/bot-interface');
 
 class CountingBot extends BotInterface {
   constructor(name = 'CountingBot', dependencies = {}) {

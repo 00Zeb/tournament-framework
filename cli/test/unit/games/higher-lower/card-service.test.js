@@ -1,5 +1,5 @@
-const CardService = require('../../../src/services/card-service');
-const MockRandomService = require('../../mocks/mock-random-service');
+const CardService = require('../../../../src/games/higher-lower/card-service');
+const MockRandomService = require('../../../mocks/mock-random-service');
 
 describe('CardService', () => {
   let cardService;

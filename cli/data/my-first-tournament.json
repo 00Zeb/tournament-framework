@@ -1,59 +1,46 @@
 {
-  "id": "oo5c6te2t",
+  "id": "71w6fc3tt",
   "name": "my-first-tournament",
-  "createdAt": "2025-07-09T13:32:33.055Z",
+  "createdAt": "2025-07-13T11:06:16.525Z",
   "status": "created",
   "participants": [
     {
-      "id": "r3a6o0jp8",
+      "id": "djrad9r4k",
       "name": "RandomBot",
       "botPath": "/home/sebastiandavidlarsson/code/tournament-framework/cli/bots/random-bot.js",
-      "addedAt": "2025-07-09T13:32:45.878Z",
+      "addedAt": "2025-07-13T11:08:43.127Z",
       "stats": {
         "gamesPlayed": 3,
-        "wins": 0,
-        "losses": 3,
+        "wins": 1,
+        "losses": 2,
         "draws": 0,
-        "totalScore": 1
+        "totalScore": 3
       }
     },
     {
-      "id": "myqgr0w52",
+      "id": "zoetp9lfl",
       "name": "SmartBot",
       "botPath": "/home/sebastiandavidlarsson/code/tournament-framework/cli/bots/smart-bot.js",
-      "addedAt": "2025-07-09T13:32:52.716Z",
+      "addedAt": "2025-07-13T11:08:56.483Z",
       "stats": {
         "gamesPlayed": 3,
         "wins": 2,
         "losses": 1,
         "draws": 0,
-        "totalScore": 15
-      }
-    },
-    {
-      "id": "acvha18um",
-      "name": "CountingBot",
-      "botPath": "/home/sebastiandavidlarsson/code/tournament-framework/cli/bots/counting-bot.js",
-      "addedAt": "2025-07-09T13:32:52.834Z",
-      "stats": {
-        "gamesPlayed": 2,
-        "wins": 2,
-        "losses": 0,
-        "draws": 0,
-        "totalScore": 11
+        "totalScore": 14
       }
     }
   ],
   "matches": [
     {
-      "id": "cc9h64kg9",
+      "id": "vk6lhuacc",
       "tournament": "my-first-tournament",
       "participants": [
         "RandomBot",
         "SmartBot"
       ],
-      "startTime": "2025-07-09T13:33:32.065Z",
-      "endTime": "2025-07-09T13:33:32.066Z",
+      "startTime": "2025-07-13T11:09:16.756Z",
+      "endTime": "2025-07-13T11:09:16.757Z",
       "result": {
         "gameOver": true,
         "winner": {
@@ -66,25 +53,25 @@
             },
             "randomService": {}
           },
-          "score": 9,
-          "correctGuesses": 9,
-          "incorrectGuesses": 0,
-          "ties": 1
+          "score": 4,
+          "correctGuesses": 7,
+          "incorrectGuesses": 3,
+          "ties": 0
         },
         "players": [
           {
             "name": "RandomBot",
-            "score": 6,
-            "correctGuesses": 8,
-            "incorrectGuesses": 2,
-            "ties": 0
+            "score": -4,
+            "correctGuesses": 2,
+            "incorrectGuesses": 6,
+            "ties": 2
           },
           {
             "name": "SmartBot",
-            "score": 9,
-            "correctGuesses": 9,
-            "incorrectGuesses": 0,
-            "ties": 1
+            "score": 4,
+            "correctGuesses": 7,
+            "incorrectGuesses": 3,
+            "ties": 0
           }
         ],
         "totalRounds": 10,
@@ -94,8 +81,76 @@
             "player": "RandomBot",
             "currentCard": {
               "suit": "diamonds",
-              "rank": "2",
-              "value": 2
+              "rank": "10",
+              "value": 10
+            },
+            "nextCard": {
+              "suit": "clubs",
+              "rank": "6",
+              "value": 6
+            },
+            "guess": "lower",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 1,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "clubs",
+              "rank": "6",
+              "value": 6
+            },
+            "nextCard": {
+              "suit": "hearts",
+              "rank": "Q",
+              "value": 12
+            },
+            "guess": "higher",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 2,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "hearts",
+              "rank": "Q",
+              "value": 12
+            },
+            "nextCard": {
+              "suit": "spades",
+              "rank": "3",
+              "value": 3
+            },
+            "guess": "higher",
+            "result": "incorrect",
+            "score": -1
+          },
+          {
+            "round": 2,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "spades",
+              "rank": "3",
+              "value": 3
+            },
+            "nextCard": {
+              "suit": "clubs",
+              "rank": "10",
+              "value": 10
+            },
+            "guess": "higher",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 3,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "clubs",
+              "rank": "10",
+              "value": 10
             },
             "nextCard": {
               "suit": "spades",
@@ -103,6 +158,667 @@
               "value": 8
             },
             "guess": "higher",
+            "result": "incorrect",
+            "score": -1
+          },
+          {
+            "round": 3,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "spades",
+              "rank": "8",
+              "value": 8
+            },
+            "nextCard": {
+              "suit": "hearts",
+              "rank": "2",
+              "value": 2
+            },
+            "guess": "lower",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 4,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "hearts",
+              "rank": "2",
+              "value": 2
+            },
+            "nextCard": {
+              "suit": "diamonds",
+              "rank": "2",
+              "value": 2
+            },
+            "guess": "lower",
+            "result": "tie",
+            "score": 0
+          },
+          {
+            "round": 4,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "diamonds",
+              "rank": "2",
+              "value": 2
+            },
+            "nextCard": {
+              "suit": "hearts",
+              "rank": "9",
+              "value": 9
+            },
+            "guess": "higher",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 5,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "hearts",
+              "rank": "9",
+              "value": 9
+            },
+            "nextCard": {
+              "suit": "hearts",
+              "rank": "4",
+              "value": 4
+            },
+            "guess": "higher",
+            "result": "incorrect",
+            "score": -1
+          },
+          {
+            "round": 5,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "hearts",
+              "rank": "4",
+              "value": 4
+            },
+            "nextCard": {
+              "suit": "diamonds",
+              "rank": "A",
+              "value": 1
+            },
+            "guess": "higher",
+            "result": "incorrect",
+            "score": -1
+          },
+          {
+            "round": 6,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "diamonds",
+              "rank": "A",
+              "value": 1
+            },
+            "nextCard": {
+              "suit": "spades",
+              "rank": "6",
+              "value": 6
+            },
+            "guess": "higher",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 6,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "spades",
+              "rank": "6",
+              "value": 6
+            },
+            "nextCard": {
+              "suit": "hearts",
+              "rank": "10",
+              "value": 10
+            },
+            "guess": "higher",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 7,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "hearts",
+              "rank": "10",
+              "value": 10
+            },
+            "nextCard": {
+              "suit": "clubs",
+              "rank": "J",
+              "value": 11
+            },
+            "guess": "lower",
+            "result": "incorrect",
+            "score": -1
+          },
+          {
+            "round": 7,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "clubs",
+              "rank": "J",
+              "value": 11
+            },
+            "nextCard": {
+              "suit": "clubs",
+              "rank": "Q",
+              "value": 12
+            },
+            "guess": "lower",
+            "result": "incorrect",
+            "score": -1
+          },
+          {
+            "round": 8,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "clubs",
+              "rank": "Q",
+              "value": 12
+            },
+            "nextCard": {
+              "suit": "spades",
+              "rank": "Q",
+              "value": 12
+            },
+            "guess": "lower",
+            "result": "tie",
+            "score": 0
+          },
+          {
+            "round": 8,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "spades",
+              "rank": "Q",
+              "value": 12
+            },
+            "nextCard": {
+              "suit": "diamonds",
+              "rank": "5",
+              "value": 5
+            },
+            "guess": "lower",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 9,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "diamonds",
+              "rank": "5",
+              "value": 5
+            },
+            "nextCard": {
+              "suit": "diamonds",
+              "rank": "J",
+              "value": 11
+            },
+            "guess": "lower",
+            "result": "incorrect",
+            "score": -1
+          },
+          {
+            "round": 9,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "diamonds",
+              "rank": "J",
+              "value": 11
+            },
+            "nextCard": {
+              "suit": "spades",
+              "rank": "4",
+              "value": 4
+            },
+            "guess": "lower",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 10,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "spades",
+              "rank": "4",
+              "value": 4
+            },
+            "nextCard": {
+              "suit": "diamonds",
+              "rank": "6",
+              "value": 6
+            },
+            "guess": "lower",
+            "result": "incorrect",
+            "score": -1
+          },
+          {
+            "round": 10,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "diamonds",
+              "rank": "6",
+              "value": 6
+            },
+            "nextCard": {
+              "suit": "diamonds",
+              "rank": "4",
+              "value": 4
+            },
+            "guess": "higher",
+            "result": "incorrect",
+            "score": -1
+          }
+        ]
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "player": "RandomBot",
+          "currentCard": {
+            "suit": "diamonds",
+            "rank": "10",
+            "value": 10
+          },
+          "nextCard": {
+            "suit": "clubs",
+            "rank": "6",
+            "value": 6
+          },
+          "guess": "lower",
+          "result": "correct",
+          "score": 1
+        },
+        {
+          "round": 1,
+          "player": "SmartBot",
+          "currentCard": {
+            "suit": "clubs",
+            "rank": "6",
+            "value": 6
+          },
+          "nextCard": {
+            "suit": "hearts",
+            "rank": "Q",
+            "value": 12
+          },
+          "guess": "higher",
+          "result": "correct",
+          "score": 1
+        },
+        {
+          "round": 2,
+          "player": "RandomBot",
+          "currentCard": {
+            "suit": "hearts",
+            "rank": "Q",
+            "value": 12
+          },
+          "nextCard": {
+            "suit": "spades",
+            "rank": "3",
+            "value": 3
+          },
+          "guess": "higher",
+          "result": "incorrect",
+          "score": -1
+        },
+        {
+          "round": 2,
+          "player": "SmartBot",
+          "currentCard": {
+            "suit": "spades",
+            "rank": "3",
+            "value": 3
+          },
+          "nextCard": {
+            "suit": "clubs",
+            "rank": "10",
+            "value": 10
+          },
+          "guess": "higher",
+          "result": "correct",
+          "score": 1
+        },
+        {
+          "round": 3,
+          "player": "RandomBot",
+          "currentCard": {
+            "suit": "clubs",
+            "rank": "10",
+            "value": 10
+          },
+          "nextCard": {
+            "suit": "spades",
+            "rank": "8",
+            "value": 8
+          },
+          "guess": "higher",
+          "result": "incorrect",
+          "score": -1
+        },
+        {
+          "round": 3,
+          "player": "SmartBot",
+          "currentCard": {
+            "suit": "spades",
+            "rank": "8",
+            "value": 8
+          },
+          "nextCard": {
+            "suit": "hearts",
+            "rank": "2",
+            "value": 2
+          },
+          "guess": "lower",
+          "result": "correct",
+          "score": 1
+        },
+        {
+          "round": 4,
+          "player": "RandomBot",
+          "currentCard": {
+            "suit": "hearts",
+            "rank": "2",
+            "value": 2
+          },
+          "nextCard": {
+            "suit": "diamonds",
+            "rank": "2",
+            "value": 2
+          },
+          "guess": "lower",
+          "result": "tie",
+          "score": 0
+        },
+        {
+          "round": 4,
+          "player": "SmartBot",
+          "currentCard": {
+            "suit": "diamonds",
+            "rank": "2",
+            "value": 2
+          },
+          "nextCard": {
+            "suit": "hearts",
+            "rank": "9",
+            "value": 9
+          },
+          "guess": "higher",
+          "result": "correct",
+          "score": 1
+        },
+        {
+          "round": 5,
+          "player": "RandomBot",
+          "currentCard": {
+            "suit": "hearts",
+            "rank": "9",
+            "value": 9
+          },
+          "nextCard": {
+            "suit": "hearts",
+            "rank": "4",
+            "value": 4
+          },
+          "guess": "higher",
+          "result": "incorrect",
+          "score": -1
+        },
+        {
+          "round": 5,
+          "player": "SmartBot",
+          "currentCard": {
+            "suit": "hearts",
+            "rank": "4",
+            "value": 4
+          },
+          "nextCard": {
+            "suit": "diamonds",
+            "rank": "A",
+            "value": 1
+          },
+          "guess": "higher",
+          "result": "incorrect",
+          "score": -1
+        },
+        {
+          "round": 6,
+          "player": "RandomBot",
+          "currentCard": {
+            "suit": "diamonds",
+            "rank": "A",
+            "value": 1
+          },
+          "nextCard": {
+            "suit": "spades",
+            "rank": "6",
+            "value": 6
+          },
+          "guess": "higher",
+          "result": "correct",
+          "score": 1
+        },
+        {
+          "round": 6,
+          "player": "SmartBot",
+          "currentCard": {
+            "suit": "spades",
+            "rank": "6",
+            "value": 6
+          },
+          "nextCard": {
+            "suit": "hearts",
+            "rank": "10",
+            "value": 10
+          },
+          "guess": "higher",
+          "result": "correct",
+          "score": 1
+        },
+        {
+          "round": 7,
+          "player": "RandomBot",
+          "currentCard": {
+            "suit": "hearts",
+            "rank": "10",
+            "value": 10
+          },
+          "nextCard": {
+            "suit": "clubs",
+            "rank": "J",
+            "value": 11
+          },
+          "guess": "lower",
+          "result": "incorrect",
+          "score": -1
+        },
+        {
+          "round": 7,
+          "player": "SmartBot",
+          "currentCard": {
+            "suit": "clubs",
+            "rank": "J",
+            "value": 11
+          },
+          "nextCard": {
+            "suit": "clubs",
+            "rank": "Q",
+            "value": 12
+          },
+          "guess": "lower",
+          "result": "incorrect",
+          "score": -1
+        },
+        {
+          "round": 8,
+          "player": "RandomBot",
+          "currentCard": {
+            "suit": "clubs",
+            "rank": "Q",
+            "value": 12
+          },
+          "nextCard": {
+            "suit": "spades",
+            "rank": "Q",
+            "value": 12
+          },
+          "guess": "lower",
+          "result": "tie",
+          "score": 0
+        },
+        {
+          "round": 8,
+          "player": "SmartBot",
+          "currentCard": {
+            "suit": "spades",
+            "rank": "Q",
+            "value": 12
+          },
+          "nextCard": {
+            "suit": "diamonds",
+            "rank": "5",
+            "value": 5
+          },
+          "guess": "lower",
+          "result": "correct",
+          "score": 1
+        },
+        {
+          "round": 9,
+          "player": "RandomBot",
+          "currentCard": {
+            "suit": "diamonds",
+            "rank": "5",
+            "value": 5
+          },
+          "nextCard": {
+            "suit": "diamonds",
+            "rank": "J",
+            "value": 11
+          },
+          "guess": "lower",
+          "result": "incorrect",
+          "score": -1
+        },
+        {
+          "round": 9,
+          "player": "SmartBot",
+          "currentCard": {
+            "suit": "diamonds",
+            "rank": "J",
+            "value": 11
+          },
+          "nextCard": {
+            "suit": "spades",
+            "rank": "4",
+            "value": 4
+          },
+          "guess": "lower",
+          "result": "correct",
+          "score": 1
+        },
+        {
+          "round": 10,
+          "player": "RandomBot",
+          "currentCard": {
+            "suit": "spades",
+            "rank": "4",
+            "value": 4
+          },
+          "nextCard": {
+            "suit": "diamonds",
+            "rank": "6",
+            "value": 6
+          },
+          "guess": "lower",
+          "result": "incorrect",
+          "score": -1
+        },
+        {
+          "round": 10,
+          "player": "SmartBot",
+          "currentCard": {
+            "suit": "diamonds",
+            "rank": "6",
+            "value": 6
+          },
+          "nextCard": {
+            "suit": "diamonds",
+            "rank": "4",
+            "value": 4
+          },
+          "guess": "higher",
+          "result": "incorrect",
+          "score": -1
+        }
+      ]
+    },
+    {
+      "id": "xj55cz5bs",
+      "tournament": "my-first-tournament",
+      "participants": [
+        "RandomBot",
+        "SmartBot"
+      ],
+      "startTime": "2025-07-13T11:10:16.353Z",
+      "endTime": "2025-07-13T11:10:16.353Z",
+      "result": {
+        "gameOver": true,
+        "winner": {
+          "name": "RandomBot",
+          "bot": {
+            "name": "random-bot",
+            "dependencies": {
+              "randomService": {},
+              "fileService": {}
+            },
+            "randomService": {}
+          },
+          "score": 7,
+          "correctGuesses": 8,
+          "incorrectGuesses": 1,
+          "ties": 1
+        },
+        "players": [
+          {
+            "name": "RandomBot",
+            "score": 7,
+            "correctGuesses": 8,
+            "incorrectGuesses": 1,
+            "ties": 1
+          },
+          {
+            "name": "SmartBot",
+            "score": 7,
+            "correctGuesses": 8,
+            "incorrectGuesses": 1,
+            "ties": 1
+          }
+        ],
+        "totalRounds": 10,
+        "history": [
+          {
+            "round": 1,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "spades",
+              "rank": "Q",
+              "value": 12
+            },
+            "nextCard": {
+              "suit": "spades",
+              "rank": "J",
+              "value": 11
+            },
+            "guess": "lower",
             "result": "correct",
             "score": 1
           },
@@ -111,13 +827,30 @@
             "player": "SmartBot",
             "currentCard": {
               "suit": "spades",
-              "rank": "8",
-              "value": 8
+              "rank": "J",
+              "value": 11
+            },
+            "nextCard": {
+              "suit": "diamonds",
+              "rank": "5",
+              "value": 5
+            },
+            "guess": "lower",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 2,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "diamonds",
+              "rank": "5",
+              "value": 5
             },
             "nextCard": {
               "suit": "clubs",
-              "rank": "8",
-              "value": 8
+              "rank": "5",
+              "value": 5
             },
             "guess": "lower",
             "result": "tie",
@@ -125,152 +858,118 @@
           },
           {
             "round": 2,
-            "player": "RandomBot",
+            "player": "SmartBot",
             "currentCard": {
               "suit": "clubs",
+              "rank": "5",
+              "value": 5
+            },
+            "nextCard": {
+              "suit": "spades",
+              "rank": "10",
+              "value": 10
+            },
+            "guess": "higher",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 3,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "spades",
+              "rank": "10",
+              "value": 10
+            },
+            "nextCard": {
+              "suit": "clubs",
+              "rank": "9",
+              "value": 9
+            },
+            "guess": "lower",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 3,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "clubs",
+              "rank": "9",
+              "value": 9
+            },
+            "nextCard": {
+              "suit": "hearts",
+              "rank": "4",
+              "value": 4
+            },
+            "guess": "lower",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 4,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "hearts",
+              "rank": "4",
+              "value": 4
+            },
+            "nextCard": {
+              "suit": "hearts",
+              "rank": "7",
+              "value": 7
+            },
+            "guess": "lower",
+            "result": "incorrect",
+            "score": -1
+          },
+          {
+            "round": 4,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "hearts",
+              "rank": "7",
+              "value": 7
+            },
+            "nextCard": {
+              "suit": "hearts",
+              "rank": "A",
+              "value": 1
+            },
+            "guess": "lower",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 5,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "hearts",
+              "rank": "A",
+              "value": 1
+            },
+            "nextCard": {
+              "suit": "hearts",
+              "rank": "8",
+              "value": 8
+            },
+            "guess": "higher",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 5,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "hearts",
               "rank": "8",
               "value": 8
             },
             "nextCard": {
-              "suit": "hearts",
-              "rank": "K",
-              "value": 13
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 2,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "hearts",
-              "rank": "K",
-              "value": 13
-            },
-            "nextCard": {
-              "suit": "diamonds",
-              "rank": "6",
-              "value": 6
-            },
-            "guess": "lower",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 3,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "diamonds",
-              "rank": "6",
-              "value": 6
-            },
-            "nextCard": {
-              "suit": "diamonds",
-              "rank": "3",
-              "value": 3
-            },
-            "guess": "lower",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 3,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "diamonds",
-              "rank": "3",
-              "value": 3
-            },
-            "nextCard": {
-              "suit": "hearts",
-              "rank": "6",
-              "value": 6
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 4,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "hearts",
-              "rank": "6",
-              "value": 6
-            },
-            "nextCard": {
               "suit": "spades",
-              "rank": "7",
-              "value": 7
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 4,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "spades",
-              "rank": "7",
-              "value": 7
-            },
-            "nextCard": {
-              "suit": "clubs",
-              "rank": "2",
-              "value": 2
-            },
-            "guess": "lower",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 5,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "clubs",
-              "rank": "2",
-              "value": 2
-            },
-            "nextCard": {
-              "suit": "hearts",
-              "rank": "A",
-              "value": 1
-            },
-            "guess": "lower",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 5,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "hearts",
-              "rank": "A",
-              "value": 1
-            },
-            "nextCard": {
-              "suit": "hearts",
-              "rank": "3",
-              "value": 3
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 6,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "hearts",
-              "rank": "3",
-              "value": 3
-            },
-            "nextCard": {
-              "suit": "spades",
-              "rank": "6",
-              "value": 6
+              "rank": "9",
+              "value": 9
             },
             "guess": "lower",
             "result": "incorrect",
@@ -278,16 +977,50 @@
           },
           {
             "round": 6,
-            "player": "SmartBot",
+            "player": "RandomBot",
             "currentCard": {
               "suit": "spades",
-              "rank": "6",
-              "value": 6
+              "rank": "9",
+              "value": 9
+            },
+            "nextCard": {
+              "suit": "clubs",
+              "rank": "3",
+              "value": 3
+            },
+            "guess": "lower",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 6,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "clubs",
+              "rank": "3",
+              "value": 3
             },
             "nextCard": {
               "suit": "diamonds",
-              "rank": "J",
-              "value": 11
+              "rank": "3",
+              "value": 3
+            },
+            "guess": "higher",
+            "result": "tie",
+            "score": 0
+          },
+          {
+            "round": 7,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "diamonds",
+              "rank": "3",
+              "value": 3
+            },
+            "nextCard": {
+              "suit": "spades",
+              "rank": "6",
+              "value": 6
             },
             "guess": "higher",
             "result": "correct",
@@ -295,33 +1028,16 @@
           },
           {
             "round": 7,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "diamonds",
-              "rank": "J",
-              "value": 11
-            },
-            "nextCard": {
-              "suit": "hearts",
-              "rank": "2",
-              "value": 2
-            },
-            "guess": "lower",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 7,
             "player": "SmartBot",
             "currentCard": {
-              "suit": "hearts",
-              "rank": "2",
-              "value": 2
+              "suit": "spades",
+              "rank": "6",
+              "value": 6
             },
             "nextCard": {
               "suit": "spades",
-              "rank": "9",
-              "value": 9
+              "rank": "K",
+              "value": 13
             },
             "guess": "higher",
             "result": "correct",
@@ -332,28 +1048,11 @@
             "player": "RandomBot",
             "currentCard": {
               "suit": "spades",
-              "rank": "9",
-              "value": 9
-            },
-            "nextCard": {
-              "suit": "diamonds",
-              "rank": "K",
-              "value": 13
-            },
-            "guess": "lower",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 8,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "diamonds",
               "rank": "K",
               "value": 13
             },
             "nextCard": {
-              "suit": "diamonds",
+              "suit": "spades",
               "rank": "7",
               "value": 7
             },
@@ -362,17 +1061,17 @@
             "score": 1
           },
           {
-            "round": 9,
-            "player": "RandomBot",
+            "round": 8,
+            "player": "SmartBot",
             "currentCard": {
-              "suit": "diamonds",
+              "suit": "spades",
               "rank": "7",
               "value": 7
             },
             "nextCard": {
-              "suit": "spades",
-              "rank": "10",
-              "value": 10
+              "suit": "clubs",
+              "rank": "K",
+              "value": 13
             },
             "guess": "higher",
             "result": "correct",
@@ -380,28 +1079,28 @@
           },
           {
             "round": 9,
-            "player": "SmartBot",
+            "player": "RandomBot",
             "currentCard": {
-              "suit": "spades",
-              "rank": "10",
-              "value": 10
+              "suit": "clubs",
+              "rank": "K",
+              "value": 13
             },
             "nextCard": {
               "suit": "hearts",
-              "rank": "9",
-              "value": 9
+              "rank": "Q",
+              "value": 12
             },
             "guess": "lower",
             "result": "correct",
             "score": 1
           },
           {
-            "round": 10,
-            "player": "RandomBot",
+            "round": 9,
+            "player": "SmartBot",
             "currentCard": {
               "suit": "hearts",
-              "rank": "9",
-              "value": 9
+              "rank": "Q",
+              "value": 12
             },
             "nextCard": {
               "suit": "clubs",
@@ -414,18 +1113,35 @@
           },
           {
             "round": 10,
-            "player": "SmartBot",
+            "player": "RandomBot",
             "currentCard": {
               "suit": "clubs",
               "rank": "4",
               "value": 4
             },
             "nextCard": {
-              "suit": "clubs",
+              "suit": "hearts",
               "rank": "10",
               "value": 10
             },
             "guess": "higher",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 10,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "hearts",
+              "rank": "10",
+              "value": 10
+            },
+            "nextCard": {
+              "suit": "hearts",
+              "rank": "5",
+              "value": 5
+            },
+            "guess": "lower",
             "result": "correct",
             "score": 1
           }
@@ -436,16 +1152,16 @@
           "round": 1,
           "player": "RandomBot",
           "currentCard": {
-            "suit": "diamonds",
-            "rank": "2",
-            "value": 2
+            "suit": "spades",
+            "rank": "Q",
+            "value": 12
           },
           "nextCard": {
             "suit": "spades",
-            "rank": "8",
-            "value": 8
+            "rank": "J",
+            "value": 11
           },
-          "guess": "higher",
+          "guess": "lower",
           "result": "correct",
           "score": 1
         },
@@ -454,13 +1170,30 @@
           "player": "SmartBot",
           "currentCard": {
             "suit": "spades",
-            "rank": "8",
-            "value": 8
+            "rank": "J",
+            "value": 11
+          },
+          "nextCard": {
+            "suit": "diamonds",
+            "rank": "5",
+            "value": 5
+          },
+          "guess": "lower",
+          "result": "correct",
+          "score": 1
+        },
+        {
+          "round": 2,
+          "player": "RandomBot",
+          "currentCard": {
+            "suit": "diamonds",
+            "rank": "5",
+            "value": 5
           },
           "nextCard": {
             "suit": "clubs",
-            "rank": "8",
-            "value": 8
+            "rank": "5",
+            "value": 5
           },
           "guess": "lower",
           "result": "tie",
@@ -468,152 +1201,118 @@
         },
         {
           "round": 2,
-          "player": "RandomBot",
+          "player": "SmartBot",
           "currentCard": {
             "suit": "clubs",
+            "rank": "5",
+            "value": 5
+          },
+          "nextCard": {
+            "suit": "spades",
+            "rank": "10",
+            "value": 10
+          },
+          "guess": "higher",
+          "result": "correct",
+          "score": 1
+        },
+        {
+          "round": 3,
+          "player": "RandomBot",
+          "currentCard": {
+            "suit": "spades",
+            "rank": "10",
+            "value": 10
+          },
+          "nextCard": {
+            "suit": "clubs",
+            "rank": "9",
+            "value": 9
+          },
+          "guess": "lower",
+          "result": "correct",
+          "score": 1
+        },
+        {
+          "round": 3,
+          "player": "SmartBot",
+          "currentCard": {
+            "suit": "clubs",
+            "rank": "9",
+            "value": 9
+          },
+          "nextCard": {
+            "suit": "hearts",
+            "rank": "4",
+            "value": 4
+          },
+          "guess": "lower",
+          "result": "correct",
+          "score": 1
+        },
+        {
+          "round": 4,
+          "player": "RandomBot",
+          "currentCard": {
+            "suit": "hearts",
+            "rank": "4",
+            "value": 4
+          },
+          "nextCard": {
+            "suit": "hearts",
+            "rank": "7",
+            "value": 7
+          },
+          "guess": "lower",
+          "result": "incorrect",
+          "score": -1
+        },
+        {
+          "round": 4,
+          "player": "SmartBot",
+          "currentCard": {
+            "suit": "hearts",
+            "rank": "7",
+            "value": 7
+          },
+          "nextCard": {
+            "suit": "hearts",
+            "rank": "A",
+            "value": 1
+          },
+          "guess": "lower",
+          "result": "correct",
+          "score": 1
+        },
+        {
+          "round": 5,
+          "player": "RandomBot",
+          "currentCard": {
+            "suit": "hearts",
+            "rank": "A",
+            "value": 1
+          },
+          "nextCard": {
+            "suit": "hearts",
+            "rank": "8",
+            "value": 8
+          },
+          "guess": "higher",
+          "result": "correct",
+          "score": 1
+        },
+        {
+          "round": 5,
+          "player": "SmartBot",
+          "currentCard": {
+            "suit": "hearts",
             "rank": "8",
             "value": 8
           },
           "nextCard": {
-            "suit": "hearts",
-            "rank": "K",
-            "value": 13
-          },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 2,
-          "player": "SmartBot",
-          "currentCard": {
-            "suit": "hearts",
-            "rank": "K",
-            "value": 13
-          },
-          "nextCard": {
-            "suit": "diamonds",
-            "rank": "6",
-            "value": 6
-          },
-          "guess": "lower",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 3,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "diamonds",
-            "rank": "6",
-            "value": 6
-          },
-          "nextCard": {
-            "suit": "diamonds",
-            "rank": "3",
-            "value": 3
-          },
-          "guess": "lower",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 3,
-          "player": "SmartBot",
-          "currentCard": {
-            "suit": "diamonds",
-            "rank": "3",
-            "value": 3
-          },
-          "nextCard": {
-            "suit": "hearts",
-            "rank": "6",
-            "value": 6
-          },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 4,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "hearts",
-            "rank": "6",
-            "value": 6
-          },
-          "nextCard": {
             "suit": "spades",
-            "rank": "7",
-            "value": 7
-          },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 4,
-          "player": "SmartBot",
-          "currentCard": {
-            "suit": "spades",
-            "rank": "7",
-            "value": 7
-          },
-          "nextCard": {
-            "suit": "clubs",
-            "rank": "2",
-            "value": 2
-          },
-          "guess": "lower",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 5,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "clubs",
-            "rank": "2",
-            "value": 2
-          },
-          "nextCard": {
-            "suit": "hearts",
-            "rank": "A",
-            "value": 1
-          },
-          "guess": "lower",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 5,
-          "player": "SmartBot",
-          "currentCard": {
-            "suit": "hearts",
-            "rank": "A",
-            "value": 1
-          },
-          "nextCard": {
-            "suit": "hearts",
-            "rank": "3",
-            "value": 3
-          },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 6,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "hearts",
-            "rank": "3",
-            "value": 3
-          },
-          "nextCard": {
-            "suit": "spades",
-            "rank": "6",
-            "value": 6
+            "rank": "9",
+            "value": 9
           },
           "guess": "lower",
           "result": "incorrect",
@@ -621,16 +1320,50 @@
         },
         {
           "round": 6,
-          "player": "SmartBot",
+          "player": "RandomBot",
           "currentCard": {
             "suit": "spades",
-            "rank": "6",
-            "value": 6
+            "rank": "9",
+            "value": 9
+          },
+          "nextCard": {
+            "suit": "clubs",
+            "rank": "3",
+            "value": 3
+          },
+          "guess": "lower",
+          "result": "correct",
+          "score": 1
+        },
+        {
+          "round": 6,
+          "player": "SmartBot",
+          "currentCard": {
+            "suit": "clubs",
+            "rank": "3",
+            "value": 3
           },
           "nextCard": {
             "suit": "diamonds",
-            "rank": "J",
-            "value": 11
+            "rank": "3",
+            "value": 3
+          },
+          "guess": "higher",
+          "result": "tie",
+          "score": 0
+        },
+        {
+          "round": 7,
+          "player": "RandomBot",
+          "currentCard": {
+            "suit": "diamonds",
+            "rank": "3",
+            "value": 3
+          },
+          "nextCard": {
+            "suit": "spades",
+            "rank": "6",
+            "value": 6
           },
           "guess": "higher",
           "result": "correct",
@@ -638,33 +1371,16 @@
         },
         {
           "round": 7,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "diamonds",
-            "rank": "J",
-            "value": 11
-          },
-          "nextCard": {
-            "suit": "hearts",
-            "rank": "2",
-            "value": 2
-          },
-          "guess": "lower",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 7,
           "player": "SmartBot",
           "currentCard": {
-            "suit": "hearts",
-            "rank": "2",
-            "value": 2
+            "suit": "spades",
+            "rank": "6",
+            "value": 6
           },
           "nextCard": {
             "suit": "spades",
-            "rank": "9",
-            "value": 9
+            "rank": "K",
+            "value": 13
           },
           "guess": "higher",
           "result": "correct",
@@ -675,28 +1391,11 @@
           "player": "RandomBot",
           "currentCard": {
             "suit": "spades",
-            "rank": "9",
-            "value": 9
-          },
-          "nextCard": {
-            "suit": "diamonds",
-            "rank": "K",
-            "value": 13
-          },
-          "guess": "lower",
-          "result": "incorrect",
-          "score": -1
-        },
-        {
-          "round": 8,
-          "player": "SmartBot",
-          "currentCard": {
-            "suit": "diamonds",
             "rank": "K",
             "value": 13
           },
           "nextCard": {
-            "suit": "diamonds",
+            "suit": "spades",
             "rank": "7",
             "value": 7
           },
@@ -705,17 +1404,17 @@
           "score": 1
         },
         {
-          "round": 9,
-          "player": "RandomBot",
+          "round": 8,
+          "player": "SmartBot",
           "currentCard": {
-            "suit": "diamonds",
+            "suit": "spades",
             "rank": "7",
             "value": 7
           },
           "nextCard": {
-            "suit": "spades",
-            "rank": "10",
-            "value": 10
+            "suit": "clubs",
+            "rank": "K",
+            "value": 13
           },
           "guess": "higher",
           "result": "correct",
@@ -723,28 +1422,28 @@
         },
         {
           "round": 9,
-          "player": "SmartBot",
+          "player": "RandomBot",
           "currentCard": {
-            "suit": "spades",
-            "rank": "10",
-            "value": 10
+            "suit": "clubs",
+            "rank": "K",
+            "value": 13
           },
           "nextCard": {
             "suit": "hearts",
-            "rank": "9",
-            "value": 9
+            "rank": "Q",
+            "value": 12
           },
           "guess": "lower",
           "result": "correct",
           "score": 1
         },
         {
-          "round": 10,
-          "player": "RandomBot",
+          "round": 9,
+          "player": "SmartBot",
           "currentCard": {
             "suit": "hearts",
-            "rank": "9",
-            "value": 9
+            "rank": "Q",
+            "value": 12
           },
           "nextCard": {
             "suit": "clubs",
@@ -757,32 +1456,49 @@
         },
         {
           "round": 10,
-          "player": "SmartBot",
+          "player": "RandomBot",
           "currentCard": {
             "suit": "clubs",
             "rank": "4",
             "value": 4
           },
           "nextCard": {
-            "suit": "clubs",
+            "suit": "hearts",
             "rank": "10",
             "value": 10
           },
           "guess": "higher",
+          "result": "correct",
+          "score": 1
+        },
+        {
+          "round": 10,
+          "player": "SmartBot",
+          "currentCard": {
+            "suit": "hearts",
+            "rank": "10",
+            "value": 10
+          },
+          "nextCard": {
+            "suit": "hearts",
+            "rank": "5",
+            "value": 5
+          },
+          "guess": "lower",
           "result": "correct",
           "score": 1
         }
       ]
     },
     {
-      "id": "rjy8yu7u1",
+      "id": "1redaeei3",
       "tournament": "my-first-tournament",
       "participants": [
         "RandomBot",
         "SmartBot"
       ],
-      "startTime": "2025-07-09T13:33:38.184Z",
-      "endTime": "2025-07-09T13:33:38.185Z",
+      "startTime": "2025-07-13T11:10:19.895Z",
+      "endTime": "2025-07-13T11:10:19.896Z",
       "result": {
         "gameOver": true,
         "winner": {
@@ -803,9 +1519,9 @@
         "players": [
           {
             "name": "RandomBot",
-            "score": -2,
-            "correctGuesses": 4,
-            "incorrectGuesses": 6,
+            "score": 0,
+            "correctGuesses": 5,
+            "incorrectGuesses": 5,
             "ties": 0
           },
           {
@@ -822,9 +1538,9 @@
             "round": 1,
             "player": "RandomBot",
             "currentCard": {
-              "suit": "hearts",
-              "rank": "2",
-              "value": 2
+              "suit": "spades",
+              "rank": "4",
+              "value": 4
             },
             "nextCard": {
               "suit": "hearts",
@@ -844,9 +1560,9 @@
               "value": 8
             },
             "nextCard": {
-              "suit": "clubs",
-              "rank": "7",
-              "value": 7
+              "suit": "hearts",
+              "rank": "5",
+              "value": 5
             },
             "guess": "lower",
             "result": "correct",
@@ -855,6 +1571,125 @@
           {
             "round": 2,
             "player": "RandomBot",
+            "currentCard": {
+              "suit": "hearts",
+              "rank": "5",
+              "value": 5
+            },
+            "nextCard": {
+              "suit": "diamonds",
+              "rank": "J",
+              "value": 11
+            },
+            "guess": "lower",
+            "result": "incorrect",
+            "score": -1
+          },
+          {
+            "round": 2,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "diamonds",
+              "rank": "J",
+              "value": 11
+            },
+            "nextCard": {
+              "suit": "diamonds",
+              "rank": "10",
+              "value": 10
+            },
+            "guess": "lower",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 3,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "diamonds",
+              "rank": "10",
+              "value": 10
+            },
+            "nextCard": {
+              "suit": "clubs",
+              "rank": "A",
+              "value": 1
+            },
+            "guess": "higher",
+            "result": "incorrect",
+            "score": -1
+          },
+          {
+            "round": 3,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "clubs",
+              "rank": "A",
+              "value": 1
+            },
+            "nextCard": {
+              "suit": "spades",
+              "rank": "3",
+              "value": 3
+            },
+            "guess": "higher",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 4,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "spades",
+              "rank": "3",
+              "value": 3
+            },
+            "nextCard": {
+              "suit": "diamonds",
+              "rank": "K",
+              "value": 13
+            },
+            "guess": "lower",
+            "result": "incorrect",
+            "score": -1
+          },
+          {
+            "round": 4,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "diamonds",
+              "rank": "K",
+              "value": 13
+            },
+            "nextCard": {
+              "suit": "diamonds",
+              "rank": "4",
+              "value": 4
+            },
+            "guess": "lower",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 5,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "diamonds",
+              "rank": "4",
+              "value": 4
+            },
+            "nextCard": {
+              "suit": "clubs",
+              "rank": "7",
+              "value": 7
+            },
+            "guess": "higher",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 5,
+            "player": "SmartBot",
             "currentCard": {
               "suit": "clubs",
               "rank": "7",
@@ -870,75 +1705,24 @@
             "score": -1
           },
           {
-            "round": 2,
-            "player": "SmartBot",
+            "round": 6,
+            "player": "RandomBot",
             "currentCard": {
               "suit": "clubs",
               "rank": "J",
               "value": 11
             },
             "nextCard": {
-              "suit": "diamonds",
-              "rank": "4",
-              "value": 4
-            },
-            "guess": "lower",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 3,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "diamonds",
-              "rank": "4",
-              "value": 4
-            },
-            "nextCard": {
-              "suit": "spades",
-              "rank": "7",
-              "value": 7
-            },
-            "guess": "lower",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 3,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "spades",
-              "rank": "7",
-              "value": 7
-            },
-            "nextCard": {
-              "suit": "clubs",
-              "rank": "4",
-              "value": 4
-            },
-            "guess": "higher",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 4,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "clubs",
-              "rank": "4",
-              "value": 4
-            },
-            "nextCard": {
               "suit": "spades",
               "rank": "8",
               "value": 8
             },
-            "guess": "higher",
+            "guess": "lower",
             "result": "correct",
             "score": 1
           },
           {
-            "round": 4,
+            "round": 6,
             "player": "SmartBot",
             "currentCard": {
               "suit": "spades",
@@ -946,217 +1730,149 @@
               "value": 8
             },
             "nextCard": {
-              "suit": "diamonds",
-              "rank": "Q",
-              "value": 12
-            },
-            "guess": "lower",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 5,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "diamonds",
-              "rank": "Q",
-              "value": 12
-            },
-            "nextCard": {
-              "suit": "diamonds",
-              "rank": "7",
-              "value": 7
-            },
-            "guess": "higher",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 5,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "diamonds",
-              "rank": "7",
-              "value": 7
-            },
-            "nextCard": {
-              "suit": "clubs",
-              "rank": "3",
-              "value": 3
-            },
-            "guess": "higher",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 6,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "clubs",
-              "rank": "3",
-              "value": 3
-            },
-            "nextCard": {
-              "suit": "hearts",
-              "rank": "Q",
-              "value": 12
-            },
-            "guess": "lower",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 6,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "hearts",
-              "rank": "Q",
-              "value": 12
-            },
-            "nextCard": {
               "suit": "spades",
               "rank": "Q",
               "value": 12
+            },
+            "guess": "lower",
+            "result": "incorrect",
+            "score": -1
+          },
+          {
+            "round": 7,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "spades",
+              "rank": "Q",
+              "value": 12
+            },
+            "nextCard": {
+              "suit": "clubs",
+              "rank": "10",
+              "value": 10
+            },
+            "guess": "lower",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 7,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "clubs",
+              "rank": "10",
+              "value": 10
+            },
+            "nextCard": {
+              "suit": "clubs",
+              "rank": "Q",
+              "value": 12
+            },
+            "guess": "lower",
+            "result": "incorrect",
+            "score": -1
+          },
+          {
+            "round": 8,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "clubs",
+              "rank": "Q",
+              "value": 12
+            },
+            "nextCard": {
+              "suit": "clubs",
+              "rank": "2",
+              "value": 2
+            },
+            "guess": "higher",
+            "result": "incorrect",
+            "score": -1
+          },
+          {
+            "round": 8,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "clubs",
+              "rank": "2",
+              "value": 2
+            },
+            "nextCard": {
+              "suit": "hearts",
+              "rank": "K",
+              "value": 13
+            },
+            "guess": "higher",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 9,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "hearts",
+              "rank": "K",
+              "value": 13
+            },
+            "nextCard": {
+              "suit": "hearts",
+              "rank": "10",
+              "value": 10
+            },
+            "guess": "higher",
+            "result": "incorrect",
+            "score": -1
+          },
+          {
+            "round": 9,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "hearts",
+              "rank": "10",
+              "value": 10
+            },
+            "nextCard": {
+              "suit": "diamonds",
+              "rank": "5",
+              "value": 5
+            },
+            "guess": "lower",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 10,
+            "player": "RandomBot",
+            "currentCard": {
+              "suit": "diamonds",
+              "rank": "5",
+              "value": 5
+            },
+            "nextCard": {
+              "suit": "diamonds",
+              "rank": "9",
+              "value": 9
+            },
+            "guess": "higher",
+            "result": "correct",
+            "score": 1
+          },
+          {
+            "round": 10,
+            "player": "SmartBot",
+            "currentCard": {
+              "suit": "diamonds",
+              "rank": "9",
+              "value": 9
+            },
+            "nextCard": {
+              "suit": "hearts",
+              "rank": "9",
+              "value": 9
             },
             "guess": "lower",
             "result": "tie",
             "score": 0
-          },
-          {
-            "round": 7,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "spades",
-              "rank": "Q",
-              "value": 12
-            },
-            "nextCard": {
-              "suit": "spades",
-              "rank": "A",
-              "value": 1
-            },
-            "guess": "higher",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 7,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "spades",
-              "rank": "A",
-              "value": 1
-            },
-            "nextCard": {
-              "suit": "diamonds",
-              "rank": "6",
-              "value": 6
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 8,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "diamonds",
-              "rank": "6",
-              "value": 6
-            },
-            "nextCard": {
-              "suit": "spades",
-              "rank": "5",
-              "value": 5
-            },
-            "guess": "lower",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 8,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "spades",
-              "rank": "5",
-              "value": 5
-            },
-            "nextCard": {
-              "suit": "diamonds",
-              "rank": "9",
-              "value": 9
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 9,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "diamonds",
-              "rank": "9",
-              "value": 9
-            },
-            "nextCard": {
-              "suit": "spades",
-              "rank": "2",
-              "value": 2
-            },
-            "guess": "lower",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 9,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "spades",
-              "rank": "2",
-              "value": 2
-            },
-            "nextCard": {
-              "suit": "clubs",
-              "rank": "10",
-              "value": 10
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 10,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "clubs",
-              "rank": "10",
-              "value": 10
-            },
-            "nextCard": {
-              "suit": "hearts",
-              "rank": "5",
-              "value": 5
-            },
-            "guess": "higher",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 10,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "hearts",
-              "rank": "5",
-              "value": 5
-            },
-            "nextCard": {
-              "suit": "spades",
-              "rank": "9",
-              "value": 9
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
           }
         ]
       },
@@ -1165,9 +1881,9 @@
           "round": 1,
           "player": "RandomBot",
           "currentCard": {
-            "suit": "hearts",
-            "rank": "2",
-            "value": 2
+            "suit": "spades",
+            "rank": "4",
+            "value": 4
           },
           "nextCard": {
             "suit": "hearts",
@@ -1187,9 +1903,9 @@
             "value": 8
           },
           "nextCard": {
-            "suit": "clubs",
-            "rank": "7",
-            "value": 7
+            "suit": "hearts",
+            "rank": "5",
+            "value": 5
           },
           "guess": "lower",
           "result": "correct",
@@ -1199,12 +1915,12 @@
           "round": 2,
           "player": "RandomBot",
           "currentCard": {
-            "suit": "clubs",
-            "rank": "7",
-            "value": 7
+            "suit": "hearts",
+            "rank": "5",
+            "value": 5
           },
           "nextCard": {
-            "suit": "clubs",
+            "suit": "diamonds",
             "rank": "J",
             "value": 11
           },
@@ -1216,14 +1932,14 @@
           "round": 2,
           "player": "SmartBot",
           "currentCard": {
-            "suit": "clubs",
+            "suit": "diamonds",
             "rank": "J",
             "value": 11
           },
           "nextCard": {
             "suit": "diamonds",
-            "rank": "4",
-            "value": 4
+            "rank": "10",
+            "value": 10
           },
           "guess": "lower",
           "result": "correct",
@@ -1234,1482 +1950,17 @@
           "player": "RandomBot",
           "currentCard": {
             "suit": "diamonds",
-            "rank": "4",
-            "value": 4
-          },
-          "nextCard": {
-            "suit": "spades",
-            "rank": "7",
-            "value": 7
-          },
-          "guess": "lower",
-          "result": "incorrect",
-          "score": -1
-        },
-        {
-          "round": 3,
-          "player": "SmartBot",
-          "currentCard": {
-            "suit": "spades",
-            "rank": "7",
-            "value": 7
+            "rank": "10",
+            "value": 10
           },
           "nextCard": {
             "suit": "clubs",
-            "rank": "4",
-            "value": 4
-          },
-          "guess": "higher",
-          "result": "incorrect",
-          "score": -1
-        },
-        {
-          "round": 4,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "clubs",
-            "rank": "4",
-            "value": 4
-          },
-          "nextCard": {
-            "suit": "spades",
-            "rank": "8",
-            "value": 8
-          },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 4,
-          "player": "SmartBot",
-          "currentCard": {
-            "suit": "spades",
-            "rank": "8",
-            "value": 8
-          },
-          "nextCard": {
-            "suit": "diamonds",
-            "rank": "Q",
-            "value": 12
-          },
-          "guess": "lower",
-          "result": "incorrect",
-          "score": -1
-        },
-        {
-          "round": 5,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "diamonds",
-            "rank": "Q",
-            "value": 12
-          },
-          "nextCard": {
-            "suit": "diamonds",
-            "rank": "7",
-            "value": 7
-          },
-          "guess": "higher",
-          "result": "incorrect",
-          "score": -1
-        },
-        {
-          "round": 5,
-          "player": "SmartBot",
-          "currentCard": {
-            "suit": "diamonds",
-            "rank": "7",
-            "value": 7
-          },
-          "nextCard": {
-            "suit": "clubs",
-            "rank": "3",
-            "value": 3
-          },
-          "guess": "higher",
-          "result": "incorrect",
-          "score": -1
-        },
-        {
-          "round": 6,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "clubs",
-            "rank": "3",
-            "value": 3
-          },
-          "nextCard": {
-            "suit": "hearts",
-            "rank": "Q",
-            "value": 12
-          },
-          "guess": "lower",
-          "result": "incorrect",
-          "score": -1
-        },
-        {
-          "round": 6,
-          "player": "SmartBot",
-          "currentCard": {
-            "suit": "hearts",
-            "rank": "Q",
-            "value": 12
-          },
-          "nextCard": {
-            "suit": "spades",
-            "rank": "Q",
-            "value": 12
-          },
-          "guess": "lower",
-          "result": "tie",
-          "score": 0
-        },
-        {
-          "round": 7,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "spades",
-            "rank": "Q",
-            "value": 12
-          },
-          "nextCard": {
-            "suit": "spades",
             "rank": "A",
             "value": 1
           },
           "guess": "higher",
           "result": "incorrect",
           "score": -1
-        },
-        {
-          "round": 7,
-          "player": "SmartBot",
-          "currentCard": {
-            "suit": "spades",
-            "rank": "A",
-            "value": 1
-          },
-          "nextCard": {
-            "suit": "diamonds",
-            "rank": "6",
-            "value": 6
-          },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 8,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "diamonds",
-            "rank": "6",
-            "value": 6
-          },
-          "nextCard": {
-            "suit": "spades",
-            "rank": "5",
-            "value": 5
-          },
-          "guess": "lower",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 8,
-          "player": "SmartBot",
-          "currentCard": {
-            "suit": "spades",
-            "rank": "5",
-            "value": 5
-          },
-          "nextCard": {
-            "suit": "diamonds",
-            "rank": "9",
-            "value": 9
-          },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 9,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "diamonds",
-            "rank": "9",
-            "value": 9
-          },
-          "nextCard": {
-            "suit": "spades",
-            "rank": "2",
-            "value": 2
-          },
-          "guess": "lower",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 9,
-          "player": "SmartBot",
-          "currentCard": {
-            "suit": "spades",
-            "rank": "2",
-            "value": 2
-          },
-          "nextCard": {
-            "suit": "clubs",
-            "rank": "10",
-            "value": 10
-          },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 10,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "clubs",
-            "rank": "10",
-            "value": 10
-          },
-          "nextCard": {
-            "suit": "hearts",
-            "rank": "5",
-            "value": 5
-          },
-          "guess": "higher",
-          "result": "incorrect",
-          "score": -1
-        },
-        {
-          "round": 10,
-          "player": "SmartBot",
-          "currentCard": {
-            "suit": "hearts",
-            "rank": "5",
-            "value": 5
-          },
-          "nextCard": {
-            "suit": "spades",
-            "rank": "9",
-            "value": 9
-          },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
-        }
-      ]
-    },
-    {
-      "id": "j7tj0pixt",
-      "tournament": "my-first-tournament",
-      "participants": [
-        "RandomBot",
-        "CountingBot"
-      ],
-      "startTime": "2025-07-09T13:33:38.188Z",
-      "endTime": "2025-07-09T13:33:38.188Z",
-      "result": {
-        "gameOver": true,
-        "winner": {
-          "name": "CountingBot",
-          "bot": {
-            "name": "counting-bot",
-            "dependencies": {
-              "randomService": {},
-              "fileService": {}
-            },
-            "randomService": {},
-            "seenCards": [
-              1,
-              2,
-              12,
-              4,
-              11,
-              10,
-              5,
-              2,
-              13,
-              3
-            ]
-          },
-          "score": 7,
-          "correctGuesses": 8,
-          "incorrectGuesses": 1,
-          "ties": 1
-        },
-        "players": [
-          {
-            "name": "RandomBot",
-            "score": -3,
-            "correctGuesses": 3,
-            "incorrectGuesses": 6,
-            "ties": 1
-          },
-          {
-            "name": "CountingBot",
-            "score": 7,
-            "correctGuesses": 8,
-            "incorrectGuesses": 1,
-            "ties": 1
-          }
-        ],
-        "totalRounds": 10,
-        "history": [
-          {
-            "round": 1,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "clubs",
-              "rank": "7",
-              "value": 7
-            },
-            "nextCard": {
-              "suit": "diamonds",
-              "rank": "A",
-              "value": 1
-            },
-            "guess": "higher",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 1,
-            "player": "CountingBot",
-            "currentCard": {
-              "suit": "diamonds",
-              "rank": "A",
-              "value": 1
-            },
-            "nextCard": {
-              "suit": "spades",
-              "rank": "10",
-              "value": 10
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 2,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "spades",
-              "rank": "10",
-              "value": 10
-            },
-            "nextCard": {
-              "suit": "spades",
-              "rank": "2",
-              "value": 2
-            },
-            "guess": "higher",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 2,
-            "player": "CountingBot",
-            "currentCard": {
-              "suit": "spades",
-              "rank": "2",
-              "value": 2
-            },
-            "nextCard": {
-              "suit": "hearts",
-              "rank": "4",
-              "value": 4
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 3,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "hearts",
-              "rank": "4",
-              "value": 4
-            },
-            "nextCard": {
-              "suit": "diamonds",
-              "rank": "Q",
-              "value": 12
-            },
-            "guess": "lower",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 3,
-            "player": "CountingBot",
-            "currentCard": {
-              "suit": "diamonds",
-              "rank": "Q",
-              "value": 12
-            },
-            "nextCard": {
-              "suit": "spades",
-              "rank": "A",
-              "value": 1
-            },
-            "guess": "lower",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 4,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "spades",
-              "rank": "A",
-              "value": 1
-            },
-            "nextCard": {
-              "suit": "diamonds",
-              "rank": "4",
-              "value": 4
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 4,
-            "player": "CountingBot",
-            "currentCard": {
-              "suit": "diamonds",
-              "rank": "4",
-              "value": 4
-            },
-            "nextCard": {
-              "suit": "diamonds",
-              "rank": "3",
-              "value": 3
-            },
-            "guess": "higher",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 5,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "diamonds",
-              "rank": "3",
-              "value": 3
-            },
-            "nextCard": {
-              "suit": "spades",
-              "rank": "J",
-              "value": 11
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 5,
-            "player": "CountingBot",
-            "currentCard": {
-              "suit": "spades",
-              "rank": "J",
-              "value": 11
-            },
-            "nextCard": {
-              "suit": "clubs",
-              "rank": "6",
-              "value": 6
-            },
-            "guess": "lower",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 6,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "clubs",
-              "rank": "6",
-              "value": 6
-            },
-            "nextCard": {
-              "suit": "clubs",
-              "rank": "10",
-              "value": 10
-            },
-            "guess": "lower",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 6,
-            "player": "CountingBot",
-            "currentCard": {
-              "suit": "clubs",
-              "rank": "10",
-              "value": 10
-            },
-            "nextCard": {
-              "suit": "hearts",
-              "rank": "10",
-              "value": 10
-            },
-            "guess": "lower",
-            "result": "tie",
-            "score": 0
-          },
-          {
-            "round": 7,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "hearts",
-              "rank": "10",
-              "value": 10
-            },
-            "nextCard": {
-              "suit": "hearts",
-              "rank": "5",
-              "value": 5
-            },
-            "guess": "higher",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 7,
-            "player": "CountingBot",
-            "currentCard": {
-              "suit": "hearts",
-              "rank": "5",
-              "value": 5
-            },
-            "nextCard": {
-              "suit": "spades",
-              "rank": "Q",
-              "value": 12
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 8,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "spades",
-              "rank": "Q",
-              "value": 12
-            },
-            "nextCard": {
-              "suit": "diamonds",
-              "rank": "2",
-              "value": 2
-            },
-            "guess": "higher",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 8,
-            "player": "CountingBot",
-            "currentCard": {
-              "suit": "diamonds",
-              "rank": "2",
-              "value": 2
-            },
-            "nextCard": {
-              "suit": "clubs",
-              "rank": "5",
-              "value": 5
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 9,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "clubs",
-              "rank": "5",
-              "value": 5
-            },
-            "nextCard": {
-              "suit": "diamonds",
-              "rank": "K",
-              "value": 13
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 9,
-            "player": "CountingBot",
-            "currentCard": {
-              "suit": "diamonds",
-              "rank": "K",
-              "value": 13
-            },
-            "nextCard": {
-              "suit": "hearts",
-              "rank": "3",
-              "value": 3
-            },
-            "guess": "lower",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 10,
-            "player": "RandomBot",
-            "currentCard": {
-              "suit": "hearts",
-              "rank": "3",
-              "value": 3
-            },
-            "nextCard": {
-              "suit": "spades",
-              "rank": "3",
-              "value": 3
-            },
-            "guess": "higher",
-            "result": "tie",
-            "score": 0
-          },
-          {
-            "round": 10,
-            "player": "CountingBot",
-            "currentCard": {
-              "suit": "spades",
-              "rank": "3",
-              "value": 3
-            },
-            "nextCard": {
-              "suit": "clubs",
-              "rank": "4",
-              "value": 4
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          }
-        ]
-      },
-      "rounds": [
-        {
-          "round": 1,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "clubs",
-            "rank": "7",
-            "value": 7
-          },
-          "nextCard": {
-            "suit": "diamonds",
-            "rank": "A",
-            "value": 1
-          },
-          "guess": "higher",
-          "result": "incorrect",
-          "score": -1
-        },
-        {
-          "round": 1,
-          "player": "CountingBot",
-          "currentCard": {
-            "suit": "diamonds",
-            "rank": "A",
-            "value": 1
-          },
-          "nextCard": {
-            "suit": "spades",
-            "rank": "10",
-            "value": 10
-          },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 2,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "spades",
-            "rank": "10",
-            "value": 10
-          },
-          "nextCard": {
-            "suit": "spades",
-            "rank": "2",
-            "value": 2
-          },
-          "guess": "higher",
-          "result": "incorrect",
-          "score": -1
-        },
-        {
-          "round": 2,
-          "player": "CountingBot",
-          "currentCard": {
-            "suit": "spades",
-            "rank": "2",
-            "value": 2
-          },
-          "nextCard": {
-            "suit": "hearts",
-            "rank": "4",
-            "value": 4
-          },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 3,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "hearts",
-            "rank": "4",
-            "value": 4
-          },
-          "nextCard": {
-            "suit": "diamonds",
-            "rank": "Q",
-            "value": 12
-          },
-          "guess": "lower",
-          "result": "incorrect",
-          "score": -1
-        },
-        {
-          "round": 3,
-          "player": "CountingBot",
-          "currentCard": {
-            "suit": "diamonds",
-            "rank": "Q",
-            "value": 12
-          },
-          "nextCard": {
-            "suit": "spades",
-            "rank": "A",
-            "value": 1
-          },
-          "guess": "lower",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 4,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "spades",
-            "rank": "A",
-            "value": 1
-          },
-          "nextCard": {
-            "suit": "diamonds",
-            "rank": "4",
-            "value": 4
-          },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 4,
-          "player": "CountingBot",
-          "currentCard": {
-            "suit": "diamonds",
-            "rank": "4",
-            "value": 4
-          },
-          "nextCard": {
-            "suit": "diamonds",
-            "rank": "3",
-            "value": 3
-          },
-          "guess": "higher",
-          "result": "incorrect",
-          "score": -1
-        },
-        {
-          "round": 5,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "diamonds",
-            "rank": "3",
-            "value": 3
-          },
-          "nextCard": {
-            "suit": "spades",
-            "rank": "J",
-            "value": 11
-          },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 5,
-          "player": "CountingBot",
-          "currentCard": {
-            "suit": "spades",
-            "rank": "J",
-            "value": 11
-          },
-          "nextCard": {
-            "suit": "clubs",
-            "rank": "6",
-            "value": 6
-          },
-          "guess": "lower",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 6,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "clubs",
-            "rank": "6",
-            "value": 6
-          },
-          "nextCard": {
-            "suit": "clubs",
-            "rank": "10",
-            "value": 10
-          },
-          "guess": "lower",
-          "result": "incorrect",
-          "score": -1
-        },
-        {
-          "round": 6,
-          "player": "CountingBot",
-          "currentCard": {
-            "suit": "clubs",
-            "rank": "10",
-            "value": 10
-          },
-          "nextCard": {
-            "suit": "hearts",
-            "rank": "10",
-            "value": 10
-          },
-          "guess": "lower",
-          "result": "tie",
-          "score": 0
-        },
-        {
-          "round": 7,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "hearts",
-            "rank": "10",
-            "value": 10
-          },
-          "nextCard": {
-            "suit": "hearts",
-            "rank": "5",
-            "value": 5
-          },
-          "guess": "higher",
-          "result": "incorrect",
-          "score": -1
-        },
-        {
-          "round": 7,
-          "player": "CountingBot",
-          "currentCard": {
-            "suit": "hearts",
-            "rank": "5",
-            "value": 5
-          },
-          "nextCard": {
-            "suit": "spades",
-            "rank": "Q",
-            "value": 12
-          },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 8,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "spades",
-            "rank": "Q",
-            "value": 12
-          },
-          "nextCard": {
-            "suit": "diamonds",
-            "rank": "2",
-            "value": 2
-          },
-          "guess": "higher",
-          "result": "incorrect",
-          "score": -1
-        },
-        {
-          "round": 8,
-          "player": "CountingBot",
-          "currentCard": {
-            "suit": "diamonds",
-            "rank": "2",
-            "value": 2
-          },
-          "nextCard": {
-            "suit": "clubs",
-            "rank": "5",
-            "value": 5
-          },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 9,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "clubs",
-            "rank": "5",
-            "value": 5
-          },
-          "nextCard": {
-            "suit": "diamonds",
-            "rank": "K",
-            "value": 13
-          },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 9,
-          "player": "CountingBot",
-          "currentCard": {
-            "suit": "diamonds",
-            "rank": "K",
-            "value": 13
-          },
-          "nextCard": {
-            "suit": "hearts",
-            "rank": "3",
-            "value": 3
-          },
-          "guess": "lower",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 10,
-          "player": "RandomBot",
-          "currentCard": {
-            "suit": "hearts",
-            "rank": "3",
-            "value": 3
-          },
-          "nextCard": {
-            "suit": "spades",
-            "rank": "3",
-            "value": 3
-          },
-          "guess": "higher",
-          "result": "tie",
-          "score": 0
-        },
-        {
-          "round": 10,
-          "player": "CountingBot",
-          "currentCard": {
-            "suit": "spades",
-            "rank": "3",
-            "value": 3
-          },
-          "nextCard": {
-            "suit": "clubs",
-            "rank": "4",
-            "value": 4
-          },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
-        }
-      ]
-    },
-    {
-      "id": "amqwzfv38",
-      "tournament": "my-first-tournament",
-      "participants": [
-        "SmartBot",
-        "CountingBot"
-      ],
-      "startTime": "2025-07-09T13:33:38.195Z",
-      "endTime": "2025-07-09T13:33:38.196Z",
-      "result": {
-        "gameOver": true,
-        "winner": {
-          "name": "CountingBot",
-          "bot": {
-            "name": "counting-bot",
-            "dependencies": {
-              "randomService": {},
-              "fileService": {}
-            },
-            "randomService": {},
-            "seenCards": [
-              2,
-              9,
-              7,
-              12,
-              8,
-              4,
-              2,
-              10,
-              9,
-              5
-            ]
-          },
-          "score": 4,
-          "correctGuesses": 7,
-          "incorrectGuesses": 3,
-          "ties": 0
-        },
-        "players": [
-          {
-            "name": "SmartBot",
-            "score": 3,
-            "correctGuesses": 6,
-            "incorrectGuesses": 3,
-            "ties": 1
-          },
-          {
-            "name": "CountingBot",
-            "score": 4,
-            "correctGuesses": 7,
-            "incorrectGuesses": 3,
-            "ties": 0
-          }
-        ],
-        "totalRounds": 10,
-        "history": [
-          {
-            "round": 1,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "clubs",
-              "rank": "4",
-              "value": 4
-            },
-            "nextCard": {
-              "suit": "diamonds",
-              "rank": "2",
-              "value": 2
-            },
-            "guess": "higher",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 1,
-            "player": "CountingBot",
-            "currentCard": {
-              "suit": "diamonds",
-              "rank": "2",
-              "value": 2
-            },
-            "nextCard": {
-              "suit": "diamonds",
-              "rank": "9",
-              "value": 9
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 2,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "diamonds",
-              "rank": "9",
-              "value": 9
-            },
-            "nextCard": {
-              "suit": "spades",
-              "rank": "9",
-              "value": 9
-            },
-            "guess": "lower",
-            "result": "tie",
-            "score": 0
-          },
-          {
-            "round": 2,
-            "player": "CountingBot",
-            "currentCard": {
-              "suit": "spades",
-              "rank": "9",
-              "value": 9
-            },
-            "nextCard": {
-              "suit": "clubs",
-              "rank": "A",
-              "value": 1
-            },
-            "guess": "lower",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 3,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "clubs",
-              "rank": "A",
-              "value": 1
-            },
-            "nextCard": {
-              "suit": "clubs",
-              "rank": "7",
-              "value": 7
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 3,
-            "player": "CountingBot",
-            "currentCard": {
-              "suit": "clubs",
-              "rank": "7",
-              "value": 7
-            },
-            "nextCard": {
-              "suit": "spades",
-              "rank": "J",
-              "value": 11
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 4,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "spades",
-              "rank": "J",
-              "value": 11
-            },
-            "nextCard": {
-              "suit": "clubs",
-              "rank": "Q",
-              "value": 12
-            },
-            "guess": "lower",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 4,
-            "player": "CountingBot",
-            "currentCard": {
-              "suit": "clubs",
-              "rank": "Q",
-              "value": 12
-            },
-            "nextCard": {
-              "suit": "clubs",
-              "rank": "5",
-              "value": 5
-            },
-            "guess": "lower",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 5,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "clubs",
-              "rank": "5",
-              "value": 5
-            },
-            "nextCard": {
-              "suit": "diamonds",
-              "rank": "8",
-              "value": 8
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 5,
-            "player": "CountingBot",
-            "currentCard": {
-              "suit": "diamonds",
-              "rank": "8",
-              "value": 8
-            },
-            "nextCard": {
-              "suit": "spades",
-              "rank": "K",
-              "value": 13
-            },
-            "guess": "lower",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 6,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "spades",
-              "rank": "K",
-              "value": 13
-            },
-            "nextCard": {
-              "suit": "diamonds",
-              "rank": "4",
-              "value": 4
-            },
-            "guess": "lower",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 6,
-            "player": "CountingBot",
-            "currentCard": {
-              "suit": "diamonds",
-              "rank": "4",
-              "value": 4
-            },
-            "nextCard": {
-              "suit": "clubs",
-              "rank": "3",
-              "value": 3
-            },
-            "guess": "higher",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 7,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "clubs",
-              "rank": "3",
-              "value": 3
-            },
-            "nextCard": {
-              "suit": "clubs",
-              "rank": "2",
-              "value": 2
-            },
-            "guess": "higher",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 7,
-            "player": "CountingBot",
-            "currentCard": {
-              "suit": "clubs",
-              "rank": "2",
-              "value": 2
-            },
-            "nextCard": {
-              "suit": "hearts",
-              "rank": "6",
-              "value": 6
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 8,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "hearts",
-              "rank": "6",
-              "value": 6
-            },
-            "nextCard": {
-              "suit": "spades",
-              "rank": "10",
-              "value": 10
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 8,
-            "player": "CountingBot",
-            "currentCard": {
-              "suit": "spades",
-              "rank": "10",
-              "value": 10
-            },
-            "nextCard": {
-              "suit": "spades",
-              "rank": "Q",
-              "value": 12
-            },
-            "guess": "lower",
-            "result": "incorrect",
-            "score": -1
-          },
-          {
-            "round": 9,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "spades",
-              "rank": "Q",
-              "value": 12
-            },
-            "nextCard": {
-              "suit": "clubs",
-              "rank": "9",
-              "value": 9
-            },
-            "guess": "lower",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 9,
-            "player": "CountingBot",
-            "currentCard": {
-              "suit": "clubs",
-              "rank": "9",
-              "value": 9
-            },
-            "nextCard": {
-              "suit": "spades",
-              "rank": "2",
-              "value": 2
-            },
-            "guess": "lower",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 10,
-            "player": "SmartBot",
-            "currentCard": {
-              "suit": "spades",
-              "rank": "2",
-              "value": 2
-            },
-            "nextCard": {
-              "suit": "diamonds",
-              "rank": "5",
-              "value": 5
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          },
-          {
-            "round": 10,
-            "player": "CountingBot",
-            "currentCard": {
-              "suit": "diamonds",
-              "rank": "5",
-              "value": 5
-            },
-            "nextCard": {
-              "suit": "hearts",
-              "rank": "9",
-              "value": 9
-            },
-            "guess": "higher",
-            "result": "correct",
-            "score": 1
-          }
-        ]
-      },
-      "rounds": [
-        {
-          "round": 1,
-          "player": "SmartBot",
-          "currentCard": {
-            "suit": "clubs",
-            "rank": "4",
-            "value": 4
-          },
-          "nextCard": {
-            "suit": "diamonds",
-            "rank": "2",
-            "value": 2
-          },
-          "guess": "higher",
-          "result": "incorrect",
-          "score": -1
-        },
-        {
-          "round": 1,
-          "player": "CountingBot",
-          "currentCard": {
-            "suit": "diamonds",
-            "rank": "2",
-            "value": 2
-          },
-          "nextCard": {
-            "suit": "diamonds",
-            "rank": "9",
-            "value": 9
-          },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 2,
-          "player": "SmartBot",
-          "currentCard": {
-            "suit": "diamonds",
-            "rank": "9",
-            "value": 9
-          },
-          "nextCard": {
-            "suit": "spades",
-            "rank": "9",
-            "value": 9
-          },
-          "guess": "lower",
-          "result": "tie",
-          "score": 0
-        },
-        {
-          "round": 2,
-          "player": "CountingBot",
-          "currentCard": {
-            "suit": "spades",
-            "rank": "9",
-            "value": 9
-          },
-          "nextCard": {
-            "suit": "clubs",
-            "rank": "A",
-            "value": 1
-          },
-          "guess": "lower",
-          "result": "correct",
-          "score": 1
         },
         {
           "round": 3,
@@ -2720,26 +1971,9 @@
             "value": 1
           },
           "nextCard": {
-            "suit": "clubs",
-            "rank": "7",
-            "value": 7
-          },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 3,
-          "player": "CountingBot",
-          "currentCard": {
-            "suit": "clubs",
-            "rank": "7",
-            "value": 7
-          },
-          "nextCard": {
             "suit": "spades",
-            "rank": "J",
-            "value": 11
+            "rank": "3",
+            "value": 3
           },
           "guess": "higher",
           "result": "correct",
@@ -2747,65 +1981,14 @@
         },
         {
           "round": 4,
-          "player": "SmartBot",
+          "player": "RandomBot",
           "currentCard": {
             "suit": "spades",
-            "rank": "J",
-            "value": 11
-          },
-          "nextCard": {
-            "suit": "clubs",
-            "rank": "Q",
-            "value": 12
-          },
-          "guess": "lower",
-          "result": "incorrect",
-          "score": -1
-        },
-        {
-          "round": 4,
-          "player": "CountingBot",
-          "currentCard": {
-            "suit": "clubs",
-            "rank": "Q",
-            "value": 12
-          },
-          "nextCard": {
-            "suit": "clubs",
-            "rank": "5",
-            "value": 5
-          },
-          "guess": "lower",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 5,
-          "player": "SmartBot",
-          "currentCard": {
-            "suit": "clubs",
-            "rank": "5",
-            "value": 5
+            "rank": "3",
+            "value": 3
           },
           "nextCard": {
             "suit": "diamonds",
-            "rank": "8",
-            "value": 8
-          },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 5,
-          "player": "CountingBot",
-          "currentCard": {
-            "suit": "diamonds",
-            "rank": "8",
-            "value": 8
-          },
-          "nextCard": {
-            "suit": "spades",
             "rank": "K",
             "value": 13
           },
@@ -2814,10 +1997,10 @@
           "score": -1
         },
         {
-          "round": 6,
+          "round": 4,
           "player": "SmartBot",
           "currentCard": {
-            "suit": "spades",
+            "suit": "diamonds",
             "rank": "K",
             "value": 13
           },
@@ -2831,8 +2014,8 @@
           "score": 1
         },
         {
-          "round": 6,
-          "player": "CountingBot",
+          "round": 5,
+          "player": "RandomBot",
           "currentCard": {
             "suit": "diamonds",
             "rank": "4",
@@ -2840,71 +2023,54 @@
           },
           "nextCard": {
             "suit": "clubs",
-            "rank": "3",
-            "value": 3
-          },
-          "guess": "higher",
-          "result": "incorrect",
-          "score": -1
-        },
-        {
-          "round": 7,
-          "player": "SmartBot",
-          "currentCard": {
-            "suit": "clubs",
-            "rank": "3",
-            "value": 3
-          },
-          "nextCard": {
-            "suit": "clubs",
-            "rank": "2",
-            "value": 2
-          },
-          "guess": "higher",
-          "result": "incorrect",
-          "score": -1
-        },
-        {
-          "round": 7,
-          "player": "CountingBot",
-          "currentCard": {
-            "suit": "clubs",
-            "rank": "2",
-            "value": 2
-          },
-          "nextCard": {
-            "suit": "hearts",
-            "rank": "6",
-            "value": 6
+            "rank": "7",
+            "value": 7
           },
           "guess": "higher",
           "result": "correct",
           "score": 1
         },
         {
-          "round": 8,
+          "round": 5,
           "player": "SmartBot",
           "currentCard": {
-            "suit": "hearts",
-            "rank": "6",
-            "value": 6
+            "suit": "clubs",
+            "rank": "7",
+            "value": 7
+          },
+          "nextCard": {
+            "suit": "clubs",
+            "rank": "J",
+            "value": 11
+          },
+          "guess": "lower",
+          "result": "incorrect",
+          "score": -1
+        },
+        {
+          "round": 6,
+          "player": "RandomBot",
+          "currentCard": {
+            "suit": "clubs",
+            "rank": "J",
+            "value": 11
           },
           "nextCard": {
             "suit": "spades",
-            "rank": "10",
-            "value": 10
+            "rank": "8",
+            "value": 8
           },
-          "guess": "higher",
+          "guess": "lower",
           "result": "correct",
           "score": 1
         },
         {
-          "round": 8,
-          "player": "CountingBot",
+          "round": 6,
+          "player": "SmartBot",
           "currentCard": {
             "suit": "spades",
-            "rank": "10",
-            "value": 10
+            "rank": "8",
+            "value": 8
           },
           "nextCard": {
             "suit": "spades",
@@ -2916,8 +2082,8 @@
           "score": -1
         },
         {
-          "round": 9,
-          "player": "SmartBot",
+          "round": 7,
+          "player": "RandomBot",
           "currentCard": {
             "suit": "spades",
             "rank": "Q",
@@ -2925,27 +2091,112 @@
           },
           "nextCard": {
             "suit": "clubs",
-            "rank": "9",
-            "value": 9
+            "rank": "10",
+            "value": 10
           },
           "guess": "lower",
           "result": "correct",
           "score": 1
         },
         {
-          "round": 9,
-          "player": "CountingBot",
+          "round": 7,
+          "player": "SmartBot",
           "currentCard": {
             "suit": "clubs",
-            "rank": "9",
-            "value": 9
+            "rank": "10",
+            "value": 10
           },
           "nextCard": {
-            "suit": "spades",
+            "suit": "clubs",
+            "rank": "Q",
+            "value": 12
+          },
+          "guess": "lower",
+          "result": "incorrect",
+          "score": -1
+        },
+        {
+          "round": 8,
+          "player": "RandomBot",
+          "currentCard": {
+            "suit": "clubs",
+            "rank": "Q",
+            "value": 12
+          },
+          "nextCard": {
+            "suit": "clubs",
             "rank": "2",
             "value": 2
           },
+          "guess": "higher",
+          "result": "incorrect",
+          "score": -1
+        },
+        {
+          "round": 8,
+          "player": "SmartBot",
+          "currentCard": {
+            "suit": "clubs",
+            "rank": "2",
+            "value": 2
+          },
+          "nextCard": {
+            "suit": "hearts",
+            "rank": "K",
+            "value": 13
+          },
+          "guess": "higher",
+          "result": "correct",
+          "score": 1
+        },
+        {
+          "round": 9,
+          "player": "RandomBot",
+          "currentCard": {
+            "suit": "hearts",
+            "rank": "K",
+            "value": 13
+          },
+          "nextCard": {
+            "suit": "hearts",
+            "rank": "10",
+            "value": 10
+          },
+          "guess": "higher",
+          "result": "incorrect",
+          "score": -1
+        },
+        {
+          "round": 9,
+          "player": "SmartBot",
+          "currentCard": {
+            "suit": "hearts",
+            "rank": "10",
+            "value": 10
+          },
+          "nextCard": {
+            "suit": "diamonds",
+            "rank": "5",
+            "value": 5
+          },
           "guess": "lower",
+          "result": "correct",
+          "score": 1
+        },
+        {
+          "round": 10,
+          "player": "RandomBot",
+          "currentCard": {
+            "suit": "diamonds",
+            "rank": "5",
+            "value": 5
+          },
+          "nextCard": {
+            "suit": "diamonds",
+            "rank": "9",
+            "value": 9
+          },
+          "guess": "higher",
           "result": "correct",
           "score": 1
         },
@@ -2953,35 +2204,18 @@
           "round": 10,
           "player": "SmartBot",
           "currentCard": {
-            "suit": "spades",
-            "rank": "2",
-            "value": 2
-          },
-          "nextCard": {
             "suit": "diamonds",
-            "rank": "5",
-            "value": 5
-          },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
-        },
-        {
-          "round": 10,
-          "player": "CountingBot",
-          "currentCard": {
-            "suit": "diamonds",
-            "rank": "5",
-            "value": 5
+            "rank": "9",
+            "value": 9
           },
           "nextCard": {
             "suit": "hearts",
             "rank": "9",
             "value": 9
           },
-          "guess": "higher",
-          "result": "correct",
-          "score": 1
+          "guess": "lower",
+          "result": "tie",
+          "score": 0
         }
       ]
     }

@@ -1,10 +1,10 @@
-const HigherLowerGame = require('./games/higher-lower');
+const gameRegistry = require('./games/game-registry');
 const path = require('path');
 
 class Tournament {
   constructor(dependencies) {
     this.fileService = dependencies.fileService;
-    this.cardService = dependencies.cardService;
+    this.randomService = dependencies.randomService;
     this.tournaments = new Map();
   }
 
@@ -111,7 +111,11 @@ class Tournament {
       { name: p2.name, bot: bot2 }
     ];
 
-    const game = new HigherLowerGame(this.cardService, players);
+    const dependencies = {
+      randomService: this.randomService,
+      fileService: this.fileService
+    };
+    const game = gameRegistry.createGame(tournament.settings.gameType, dependencies, players);
     
     const gameStart = new Date().toISOString();
     bot1.onGameStart({ tournament: tournamentName, opponent: p2.name });
@@ -246,7 +250,7 @@ class Tournament {
     delete require.cache[require.resolve(botPath)];
     const BotClass = require(botPath);
     const dependencies = {
-      randomService: this.cardService.randomService,
+      randomService: this.randomService,
       fileService: this.fileService
     };
     return new BotClass(path.basename(botPath, '.js'), dependencies);

@@ -1,7 +1,7 @@
-const HigherLowerGame = require('../../../src/games/higher-lower');
-const MockRandomService = require('../../mocks/mock-random-service');
-const CardService = require('../../../src/services/card-service');
-const RandomBot = require('../../../src/bots/random-bot');
+const HigherLowerGame = require('../../../../src/games/higher-lower/game');
+const MockRandomService = require('../../../mocks/mock-random-service');
+const CardService = require('../../../../src/games/higher-lower/card-service');
+const RandomBot = require('../../../../src/bots/random-bot');
 
 describe('HigherLowerGame', () => {
   let game;

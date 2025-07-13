@@ -1,5 +1,5 @@
-const SmartBot = require('../../../src/bots/smart-bot');
-const MockRandomService = require('../../mocks/mock-random-service');
+const SmartBot = require('../../../../../src/games/higher-lower/bots/smart-bot');
+const MockRandomService = require('../../../../mocks/mock-random-service');
 
 describe('SmartBot', () => {
   let bot;
