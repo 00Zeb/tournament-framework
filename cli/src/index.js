@@ -69,6 +69,61 @@ program
   });
 
 program
+  .command('bots [game-type]')
+  .description('List available bots for a game type (defaults to all game types)')
+  .action(async (gameType) => {
+    try {
+      if (gameType) {
+        // Show bots for specific game type
+        if (!gameRegistry.isValidGameType(gameType)) {
+          console.error(chalk.red(`✗ Invalid game type '${gameType}'. Available types: ${gameRegistry.getAvailableGameTypes().join(', ')}`));
+          process.exit(1);
+        }
+        
+        console.log(chalk.blue(`🤖 Available bots for ${gameType}:`));
+        
+        const bots = await gameRegistry.discoverBots(gameType);
+        
+        if (bots.length === 0) {
+          console.log(chalk.yellow('  No bots found for this game type'));
+          return;
+        }
+        
+        bots.forEach(bot => {
+          console.log(`  ${chalk.cyan(bot.name)} (${chalk.gray(bot.source)})`);
+          console.log(`    ${bot.description}`);
+          console.log(chalk.gray(`    Path: ${bot.path}`));
+        });
+        
+        console.log(chalk.gray(`\nTotal: ${bots.length} bots found`));
+        
+      } else {
+        // Show bots for all game types
+        console.log(chalk.blue('🤖 Available bots by game type:'));
+        
+        const gameTypes = gameRegistry.getAvailableGameTypes();
+        
+        for (const type of gameTypes) {
+          console.log(chalk.bold(`\n${type}:`));
+          const bots = await gameRegistry.discoverBots(type);
+          
+          if (bots.length === 0) {
+            console.log(chalk.gray('  No bots found'));
+          } else {
+            bots.forEach(bot => {
+              console.log(`  ${chalk.cyan(bot.name)} (${chalk.gray(bot.source)}) - ${bot.description}`);
+            });
+          }
+        }
+      }
+      
+    } catch (error) {
+      console.error(chalk.red(`✗ Error listing bots: ${error.message}`));
+      process.exit(1);
+    }
+  });
+
+program
   .command('list')
   .description('List all tournaments')
   .action(async () => {
@@ -138,6 +193,42 @@ program
       
     } catch (error) {
       console.error(chalk.red(`✗ Error running match: ${error.message}`));
+      process.exit(1);
+    }
+  });
+
+program
+  .command('run <tournament>')
+  .description('Run a complete tournament with auto-discovered bots')
+  .option('--no-auto-populate', 'Skip auto-populating bots (use existing participants)')
+  .action(async (tournamentName, options) => {
+    try {
+      console.log(chalk.blue(`🏆 Running full tournament '${tournamentName}'`));
+      
+      if (options.autoPopulate !== false) {
+        console.log(chalk.gray('🔍 Auto-discovering available bots...'));
+      }
+      
+      const result = await tournament.runFullTournament(tournamentName);
+      
+      console.log(chalk.green(`✓ Tournament completed successfully`));
+      console.log(chalk.bold(`\n📊 Tournament Summary:`));
+      console.log(`  Participants: ${result.summary.participants}`);
+      console.log(`  Total Matches: ${result.summary.totalMatches}`);
+      console.log(`  Winner: ${result.summary.winner ? result.summary.winner.name : 'No clear winner'}`);
+      
+      if (result.summary.winner) {
+        const winner = result.summary.winner;
+        console.log(chalk.yellow(`\n🥇 Champion: ${winner.name}`));
+        console.log(`  Win Rate: ${(winner.winRate * 100).toFixed(1)}%`);
+        console.log(`  Average Score: ${winner.avgScore.toFixed(2)}`);
+        console.log(`  Record: ${winner.wins}W-${winner.losses}L-${winner.draws}D`);
+      }
+      
+      console.log(chalk.gray(`\n💾 Tournament data saved. Use 'tournament standings ${tournamentName}' for detailed results.`));
+      
+    } catch (error) {
+      console.error(chalk.red(`✗ Error running tournament: ${error.message}`));
       process.exit(1);
     }
   });

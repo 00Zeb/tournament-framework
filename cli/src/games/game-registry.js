@@ -62,6 +62,102 @@ class GameRegistry {
   isValidGameType(gameType) {
     return this.games.has(gameType);
   }
+
+  /**
+   * Discover all available bots for a specific game type
+   * Scans both game-specific bots directory and generic bots directory
+   * Avoids duplicates by preferring game-specific bots over generic ones
+   */
+  async discoverBots(gameType) {
+    const gameModule = this.getGame(gameType);
+    const discoveredBots = [];
+    const botNames = new Set(); // Track bot names to avoid duplicates
+
+    // 1. Get game-specific bots from the game's bots directory (higher priority)
+    const gameBotsDir = path.join(__dirname, gameType, 'bots');
+    if (fs.existsSync(gameBotsDir)) {
+      const gameBots = await this._scanBotsDirectory(gameBotsDir, `game-specific (${gameType})`);
+      gameBots.forEach(bot => {
+        discoveredBots.push(bot);
+        botNames.add(bot.name);
+      });
+    }
+
+    // 2. Get generic bots from the main bots directory (only if not already found)
+    const genericBotsDir = path.join(__dirname, '../../bots');
+    if (fs.existsSync(genericBotsDir)) {
+      const genericBots = await this._scanBotsDirectory(genericBotsDir, 'generic');
+      genericBots.forEach(bot => {
+        if (!botNames.has(bot.name)) {
+          discoveredBots.push(bot);
+          botNames.add(bot.name);
+        }
+      });
+    }
+
+    return discoveredBots;
+  }
+
+  /**
+   * Scan a directory for bot files and return bot metadata
+   */
+  async _scanBotsDirectory(botsDir, source) {
+    const bots = [];
+    
+    try {
+      const entries = fs.readdirSync(botsDir, { withFileTypes: true });
+      
+      for (const entry of entries) {
+        if (entry.isFile() && entry.name.endsWith('.js')) {
+          const botPath = path.join(botsDir, entry.name);
+          const botName = path.basename(entry.name, '.js');
+          
+          try {
+            // Validate that the file exports a valid bot class
+            const BotClass = require(botPath);
+            
+            // Check if it's a valid bot (has required methods)
+            if (typeof BotClass === 'function') {
+              bots.push({
+                name: botName,
+                path: botPath,
+                source: source,
+                className: BotClass.name || botName,
+                description: this._getBotDescription(BotClass)
+              });
+            }
+          } catch (error) {
+            console.warn(`Failed to load bot ${entry.name}: ${error.message}`);
+          }
+        }
+      }
+    } catch (error) {
+      console.warn(`Failed to scan bots directory ${botsDir}: ${error.message}`);
+    }
+
+    return bots;
+  }
+
+  /**
+   * Extract description from bot class if available
+   */
+  _getBotDescription(BotClass) {
+    try {
+      // Try to get description from static method or prototype
+      if (BotClass.prototype && typeof BotClass.prototype.getDescription === 'function') {
+        // Create a minimal mock dependencies object for safe instantiation
+        const mockDependencies = {
+          randomService: { chance: () => true, shuffle: (arr) => arr },
+          fileService: {}
+        };
+        const tempInstance = new BotClass('temp', mockDependencies);
+        return tempInstance.getDescription();
+      }
+      return `${BotClass.name || 'Unknown'} bot`;
+    } catch (error) {
+      return `${BotClass.name || 'Unknown'} bot (description unavailable)`;
+    }
+  }
 }
 
 // Export a singleton instance

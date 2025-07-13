@@ -256,6 +256,88 @@ class Tournament {
     return new BotClass(path.basename(botPath, '.js'), dependencies);
   }
 
+  /**
+   * Auto-populate tournament with all available bots for the game type
+   */
+  async autoPopulateBots(tournamentName) {
+    const tournament = this.tournaments.get(tournamentName) || await this.loadTournament(tournamentName);
+    
+    // Clear existing participants to start fresh
+    tournament.participants = [];
+    
+    // Discover all available bots for this game type
+    const discoveredBots = await gameRegistry.discoverBots(tournament.settings.gameType);
+    
+    if (discoveredBots.length === 0) {
+      throw new Error(`No bots found for game type '${tournament.settings.gameType}'. Please ensure bots exist in the game's bots directory or the generic bots directory.`);
+    }
+
+    // Add each discovered bot as a participant
+    for (const bot of discoveredBots) {
+      const participant = {
+        id: this.generateId(),
+        name: bot.name,
+        botPath: bot.path,
+        source: bot.source,
+        description: bot.description,
+        addedAt: new Date().toISOString(),
+        autoDiscovered: true,
+        stats: {
+          gamesPlayed: 0,
+          wins: 0,
+          losses: 0,
+          draws: 0,
+          totalScore: 0
+        }
+      };
+
+      tournament.participants.push(participant);
+    }
+
+    await this.saveTournament(tournament);
+    return {
+      tournament,
+      botsAdded: discoveredBots.length,
+      bots: discoveredBots
+    };
+  }
+
+  /**
+   * Run a complete tournament with auto-discovered bots
+   */
+  async runFullTournament(tournamentName) {
+    const tournament = this.tournaments.get(tournamentName) || await this.loadTournament(tournamentName);
+    
+    // Auto-populate bots if no participants exist or if requested
+    if (tournament.participants.length === 0) {
+      await this.autoPopulateBots(tournamentName);
+    }
+
+    // Reload tournament to get updated participants
+    const updatedTournament = this.tournaments.get(tournamentName) || await this.loadTournament(tournamentName);
+    
+    if (updatedTournament.participants.length < 2) {
+      throw new Error(`Need at least 2 participants to run a tournament. Found ${updatedTournament.participants.length} bots.`);
+    }
+
+    // Run a full round robin
+    const matches = await this.runRound(tournamentName);
+    
+    // Get final standings
+    const standings = await this.getStandings(tournamentName);
+    
+    return {
+      tournament: updatedTournament,
+      matches,
+      standings,
+      summary: {
+        totalMatches: matches.length,
+        participants: updatedTournament.participants.length,
+        winner: standings.length > 0 ? standings[0] : null
+      }
+    };
+  }
+
   generateId() {
     return Math.random().toString(36).substr(2, 9);
   }
