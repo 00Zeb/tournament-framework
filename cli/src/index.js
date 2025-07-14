@@ -220,10 +220,22 @@ program
       
       if (result.summary.winner) {
         const winner = result.summary.winner;
+        const tournamentData = result.tournament;
+        const gameType = tournamentData.settings.gameType;
+        const ScoreNormalizationService = require('./services/score-normalization-service');
+        const scoreService = new ScoreNormalizationService();
+        
         console.log(chalk.yellow(`\n🥇 Champion: ${winner.name}`));
-        console.log(`  Win Rate: ${(winner.winRate * 100).toFixed(1)}%`);
-        console.log(`  Average Score: ${winner.avgScore.toFixed(2)}`);
-        console.log(`  Record: ${winner.wins}W-${winner.losses}L-${winner.draws}D`);
+        
+        if (scoreService.usesRawScores(gameType)) {
+          const scoreLabel = gameType === 'texas-holdem-many' ? 'chips' : 'winnings';
+          console.log(`  🎯 Average Score: ${winner.avgScore.toFixed(0)} (avg ${scoreLabel})`);
+        } else {
+          console.log(`  🎯 Average Score: ${winner.avgScore.toFixed(3)} (normalized)`);
+        }
+        
+        console.log(`  📊 Win Rate: ${(winner.winRate * 100).toFixed(1)}%`);
+        console.log(`  📈 Record: ${winner.wins}W-${winner.losses}L-${winner.draws}D`);
       }
       
       console.log(chalk.gray(`\n💾 Tournament data saved. Use 'tournament standings ${tournamentName}' for detailed results.`));
@@ -272,7 +284,13 @@ program
         return;
       }
       
-      console.log(chalk.bold(`\\nStandings for '${tournamentName}':`));
+      // Get tournament info for formatting
+      const tournamentData = await tournament.tournaments.get(tournamentName) || await tournament.loadTournament(tournamentName);
+      const gameType = tournamentData.settings.gameType;
+      const ScoreNormalizationService = require('./services/score-normalization-service');
+      const scoreService = new ScoreNormalizationService();
+      
+      console.log(chalk.bold(`\\nStandings for '${tournamentName}' (ranked by Average Score):`));
       console.log(chalk.gray('Rank | Name | Games | Wins | Losses | Draws | DQs | Win Rate | Avg Score'));
       console.log(chalk.gray('-----|------|-------|------|--------|-------|-----|----------|----------'));
       
@@ -285,7 +303,9 @@ program
         const draws = participant.draws.toString().padStart(5);
         const dqs = participant.disqualifications.toString().padStart(3);
         const winRate = (participant.winRate * 100).toFixed(1).padStart(8) + '%';
-        const avgScore = participant.avgScore.toFixed(2).padStart(8);
+        const avgScore = scoreService.usesRawScores(gameType) 
+          ? participant.avgScore.toFixed(0).padStart(8)
+          : participant.avgScore.toFixed(3).padStart(8);
         
         let rowColor = chalk.white;
         if (participant.disqualifications > 0) {
@@ -294,6 +314,15 @@ program
         
         console.log(rowColor(`${rank} | ${name} | ${games} | ${wins} | ${losses} | ${draws} | ${dqs} | ${winRate} | ${avgScore}`));
       });
+      
+      // Use the already retrieved tournament data
+      
+      if (scoreService.usesRawScores(gameType)) {
+        console.log(chalk.gray(`\n📋 Note: Average Score shows raw ${gameType === 'texas-holdem-many' ? 'chip counts' : 'winnings/losses'} for meaningful comparison.`));
+      } else {
+        console.log(chalk.gray(`\n📋 Note: Average Score is normalized to [-1.0, +1.0] range for fair comparison across game types.`));
+      }
+      console.log(chalk.gray(`     Higher values indicate better performance. Ranking is: Avg Score → Win Rate → Games Played`));
       
     } catch (error) {
       console.error(chalk.red(`✗ Error getting standings: ${error.message}`));

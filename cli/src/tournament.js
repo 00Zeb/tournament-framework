@@ -1,11 +1,13 @@
 const gameRegistry = require('./games/game-registry');
 const path = require('path');
+const ScoreNormalizationService = require('./services/score-normalization-service');
 
 class Tournament {
   constructor(dependencies) {
     this.fileService = dependencies.fileService;
     this.randomService = dependencies.randomService;
     this.tournaments = new Map();
+    this.scoreNormalizationService = new ScoreNormalizationService();
   }
 
   /**
@@ -296,7 +298,13 @@ class Tournament {
           }
         }
         
-        participant.stats.totalScore += player.score;
+        // Use normalized score for consistent comparison across game types
+        const normalizedScore = this.scoreNormalizationService.normalizeScore(
+          tournament.settings.gameType,
+          player,
+          { gameContext: match.result }
+        );
+        participant.stats.totalScore += normalizedScore;
         participant.stats.disqualifications += player.disqualifications || 0;
       }
     });
@@ -318,9 +326,12 @@ class Tournament {
         avgScore: p.stats.gamesPlayed > 0 ? (p.stats.totalScore / p.stats.gamesPlayed) : 0
       }))
       .sort((a, b) => {
-        if (a.winRate !== b.winRate) return b.winRate - a.winRate;
+        // Primary ranking: Average normalized score (higher is better)
         if (a.avgScore !== b.avgScore) return b.avgScore - a.avgScore;
-        return b.wins - a.wins;
+        // Secondary ranking: Win rate (higher is better)
+        if (a.winRate !== b.winRate) return b.winRate - a.winRate;
+        // Tertiary ranking: Total games played (more experience)
+        return b.gamesPlayed - a.gamesPlayed;
       });
 
     return standings;
