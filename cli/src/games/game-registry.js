@@ -89,6 +89,11 @@ class GameRegistry {
       const genericBots = await this._scanBotsDirectory(genericBotsDir, 'generic');
       genericBots.forEach(bot => {
         if (!botNames.has(bot.name)) {
+          // Skip incompatible bots for specific games
+          if (gameType === 'texas-holdem-many' && 
+              (bot.name === 'counting-bot' || bot.name === 'smart-bot')) {
+            return; // Skip these bots as they're designed for Higher-Lower games
+          }
           discoveredBots.push(bot);
           botNames.add(bot.name);
         }

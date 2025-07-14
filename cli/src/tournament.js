@@ -192,9 +192,12 @@ class Tournament {
       throw new Error('Need at least 2 participants to run a free-for-all match');
     }
 
+    console.log(`Loading ${tournament.participants.length} bots...`);
+
     // Load all bots and create players array
     const players = [];
     for (const participant of tournament.participants) {
+      console.log(`Loading bot: ${participant.name}`);
       const bot = await this.loadBot(participant.botPath);
       players.push({ name: participant.name, bot: bot });
     }
@@ -203,16 +206,19 @@ class Tournament {
       randomService: this.randomService,
       fileService: this.fileService
     };
+    console.log(`Creating game instance for ${tournament.settings.gameType}...`);
     const game = gameRegistry.createGame(tournament.settings.gameType, dependencies, players);
     
     const gameStart = new Date().toISOString();
     
+    console.log(`Notifying ${players.length} bots that game is starting...`);
     // Notify all bots that the game is starting
     players.forEach(player => {
       const opponents = players.filter(p => p.name !== player.name).map(p => p.name);
       player.bot.onGameStart({ tournament: tournamentName, opponents: opponents });
     });
     
+    console.log(`Starting game execution...`);
     const gameResult = await game.playFullGame();
     const gameEnd = new Date().toISOString();
     
@@ -420,6 +426,8 @@ class Tournament {
     if (updatedTournament.participants.length < 2) {
       throw new Error(`Need at least 2 participants to run a tournament. Found ${updatedTournament.participants.length} bots.`);
     }
+
+    console.log(`Starting tournament execution with ${updatedTournament.participants.length} participants...`);
 
     // Run tournament based on detected match type
     const matches = updatedTournament.settings.matchType === 'free-for-all' 
