@@ -12,7 +12,7 @@ class TexasHoldemGame {
       combinedDeck = combinedDeck.concat(this.cardService.createDeck());
     }
     const deck = this.cardService.shuffleDeck(combinedDeck);
-    
+
     return {
       deck,
       communityCards: [],
@@ -20,7 +20,8 @@ class TexasHoldemGame {
       currentBet: 0,
       players: this.players.map((player, index) => ({
         ...player,
-        chips: 1000, // Starting chips
+        chips: 1000, // Starting chips (reset each hand)
+        startingChips: 1000, // Base chip amount for rebuys
         holeCards: [],
         currentBet: 0,
         folded: false,
@@ -28,8 +29,14 @@ class TexasHoldemGame {
         position: index,
         handsWon: 0,
         handsLost: 0,
+        handsTied: 0,
         totalWinnings: 0,
-        disqualifications: 0
+        disqualifications: 0,
+        // Tournament scoring fields
+        roundWins: 0,
+        roundLosses: 0,
+        roundTies: 0,
+        score: 0 // Total tournament points
       })),
       dealerPosition: 0,
       currentPlayerIndex: 0,
@@ -37,6 +44,10 @@ class TexasHoldemGame {
       bettingRound: 1,
       smallBlind: 10,
       bigBlind: 20,
+      // Betting limits for structured play
+      smallBet: 20, // Betting unit for preflop and flop
+      bigBet: 40,   // Betting unit for turn and river (2x small bet)
+      maxRaisesPerRound: 3, // Maximum raises per betting round
       handCount: 1,
       maxHands: 10,
       gameOver: false,
@@ -118,15 +129,15 @@ class TexasHoldemGame {
   }
 
   resetForNewHand() {
-    // Remove players with no chips
+    // Remove players with no chips (traditional elimination)
     this.gameState.players = this.gameState.players.filter(player => player.chips > 0);
-    
+
     if (this.gameState.players.length < 2) {
       this.endGame();
       return;
     }
 
-    // Reset player states
+    // Reset hand-specific states
     this.gameState.players.forEach(player => {
       player.holeCards = [];
       player.currentBet = 0;
@@ -139,6 +150,7 @@ class TexasHoldemGame {
     this.gameState.currentBet = 0;
     this.gameState.gamePhase = 'preflop';
     this.gameState.bettingRound = 1;
+    this.gameState.raisesThisRound = 0; // Track raises for limit enforcement
   }
 
   postBlinds() {
@@ -207,6 +219,7 @@ class TexasHoldemGame {
   async playBettingRound(phase) {
     console.log(`Starting betting round: ${phase}`);
     this.gameState.gamePhase = phase;
+    this.gameState.raisesThisRound = 0; // Reset raise counter for each betting round
 
     // Reset current bets for new round (except preflop with blinds)
     if (phase !== 'preflop') {
@@ -336,27 +349,19 @@ class TexasHoldemGame {
         break;
 
       case 'raise':
-        const raiseAmount = action.amount || this.gameState.bigBlind;
-        const totalBet = this.gameState.currentBet + raiseAmount;
+        const betSize = this.getCurrentBetSize();
+        const totalBet = this.gameState.currentBet + betSize;
         const playerContribution = Math.min(totalBet - player.currentBet, player.chips);
-        
+
         player.chips -= playerContribution;
         player.currentBet += playerContribution;
         this.gameState.pot += playerContribution;
         this.gameState.currentBet = player.currentBet;
-        
+        this.gameState.raisesThisRound++;
+
         if (player.chips === 0) {
           player.allIn = true;
         }
-        break;
-
-      case 'all-in':
-        const allInAmount = player.chips;
-        player.chips = 0;
-        player.currentBet += allInAmount;
-        this.gameState.pot += allInAmount;
-        this.gameState.currentBet = Math.max(this.gameState.currentBet, player.currentBet);
-        player.allIn = true;
         break;
     }
   }
@@ -366,8 +371,39 @@ class TexasHoldemGame {
       return false;
     }
 
-    const validTypes = ['fold', 'check', 'call', 'raise', 'all-in'];
-    return validTypes.includes(action.type);
+    const validTypes = ['fold', 'check', 'call', 'raise'];
+    if (!validTypes.includes(action.type)) {
+      return false;
+    }
+
+    // Validate raise amounts for limit hold'em
+    if (action.type === 'raise') {
+      const currentBetSize = this.getCurrentBetSize();
+      const maxRaises = this.gameState.maxRaisesPerRound;
+
+      // Check if max raises exceeded
+      if (this.gameState.raisesThisRound >= maxRaises) {
+        console.log(`Raise rejected: Max raises (${maxRaises}) exceeded`);
+        return false;
+      }
+
+      // Check if raise amount is exactly one bet size
+      if (action.amount !== currentBetSize) {
+        console.log(`Raise rejected: Amount ${action.amount} must be exactly ${currentBetSize}`);
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  getCurrentBetSize() {
+    // Small bet for preflop and flop, big bet for turn and river
+    if (this.gameState.gamePhase === 'preflop' || this.gameState.gamePhase === 'flop') {
+      return this.gameState.smallBet;
+    } else {
+      return this.gameState.bigBet;
+    }
   }
 
   isBettingRoundComplete() {
@@ -412,14 +448,18 @@ class TexasHoldemGame {
 
   showdown() {
     const activePlayers = this.getActivePlayers();
-    
+    const allPlayers = this.gameState.players; // Include folded players in scoring
+
     if (activePlayers.length === 1) {
       // Only one player left, they win
       const winner = activePlayers[0];
       winner.chips += this.gameState.pot;
       winner.handsWon++;
       winner.totalWinnings += this.gameState.pot;
-      
+
+      // Score this hand for tournament
+      this.scoreHand([winner], allPlayers.filter(p => p !== winner));
+
       return {
         handNumber: this.gameState.handCount,
         winners: [winner.name],
@@ -444,7 +484,7 @@ class TexasHoldemGame {
     const sortedPlayers = activePlayers.sort((a, b) => {
       const evalA = handEvaluations[a.name];
       const evalB = handEvaluations[b.name];
-      
+
       if (evalA.rank !== evalB.rank) {
         return evalB.rank - evalA.rank;
       }
@@ -454,7 +494,7 @@ class TexasHoldemGame {
     // Check for ties
     const winners = [];
     const winningEval = handEvaluations[sortedPlayers[0].name];
-    
+
     for (const player of sortedPlayers) {
       const evaluation = handEvaluations[player.name];
       if (evaluation.rank === winningEval.rank && evaluation.value === winningEval.value) {
@@ -467,7 +507,7 @@ class TexasHoldemGame {
     // Distribute pot
     const winnings = {};
     const potShare = Math.floor(this.gameState.pot / winners.length);
-    
+
     winners.forEach(winner => {
       winner.chips += potShare;
       winner.handsWon++;
@@ -481,6 +521,10 @@ class TexasHoldemGame {
         player.handsLost++;
       }
     });
+
+    // Score this hand for tournament
+    const losers = allPlayers.filter(p => !winners.includes(p));
+    this.scoreHand(winners, losers);
 
     return {
       handNumber: this.gameState.handCount,
@@ -521,10 +565,32 @@ class TexasHoldemGame {
     };
   }
 
+  scoreHand(winners, losers) {
+    // Award points for this hand
+    if (winners.length === 1) {
+      // Single winner gets 1 point and a round win
+      winners[0].score += 1;
+      winners[0].roundWins++;
+
+      // All others get a round loss
+      losers.forEach(loser => {
+        loser.roundLosses++;
+      });
+    } else {
+      // Multiple winners tie - all get round ties
+      winners.forEach(winner => {
+        winner.roundTies++;
+      });
+
+      // Non-winners get round losses
+      losers.forEach(loser => {
+        loser.roundLosses++;
+      });
+    }
+  }
+
   isGameOver() {
-    return this.gameState.gameOver || 
-           this.gameState.handCount > this.gameState.maxHands ||
-           this.gameState.players.filter(p => p.chips > 0).length < 2;
+    return this.gameState.gameOver || this.gameState.handCount > this.gameState.maxHands;
   }
 
   endGame() {
@@ -532,9 +598,9 @@ class TexasHoldemGame {
   }
 
   getGameResult() {
-    // Sort players by chips (descending)
+    // Sort players by chips (descending) for final ranking
     const sortedPlayers = [...this.gameState.players].sort((a, b) => b.chips - a.chips);
-    
+
     return {
       gameOver: true,
       winner: sortedPlayers[0]?.name || 'No winner',
@@ -547,7 +613,7 @@ class TexasHoldemGame {
         handsLost: player.handsLost,
         totalWinnings: player.totalWinnings,
         disqualifications: player.disqualifications,
-        // Add fields expected by tournament framework
+        // Fields expected by tournament framework
         roundWins: player.handsWon,
         roundLosses: player.handsLost,
         roundTies: 0
