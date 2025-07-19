@@ -273,11 +273,23 @@ class Tournament {
       const participant = tournament.participants.find(p => p.name === player.name);
       if (participant) {
         if (isFreeForAll) {
-          // For free-for-all: each round counts as a separate game
-          participant.stats.gamesPlayed += (player.roundWins + player.roundLosses + player.roundTies);
-          participant.stats.wins += player.roundWins;
-          participant.stats.losses += player.roundLosses;
-          participant.stats.draws += player.roundTies;
+          // For free-for-all games
+          if (tournament.settings.gameType === 'texas-holdem-many') {
+            // Texas Hold'em: count each hand as a separate game for consistent statistics
+            participant.stats.gamesPlayed += (player.roundWins + player.roundLosses + player.roundTies);
+            participant.stats.wins += player.roundWins;
+            participant.stats.losses += player.roundLosses;
+            participant.stats.draws += player.roundTies;
+            
+            // Track poker sessions separately for scoring average
+            participant.pokerSessions = (participant.pokerSessions || 0) + 1;
+          } else {
+            // Other free-for-all games: each round counts as a separate game
+            participant.stats.gamesPlayed += (player.roundWins + player.roundLosses + player.roundTies);
+            participant.stats.wins += player.roundWins;
+            participant.stats.losses += player.roundLosses;
+            participant.stats.draws += player.roundTies;
+          }
         } else {
           // For round-robin: traditional single game statistics
           participant.stats.gamesPlayed++;
@@ -322,8 +334,8 @@ class Tournament {
         draws: p.stats.draws,
         disqualifications: p.stats.disqualifications,
         totalScore: p.stats.totalScore,
-        winRate: p.stats.gamesPlayed > 0 ? (p.stats.wins / p.stats.gamesPlayed) : 0,
-        avgScore: p.stats.gamesPlayed > 0 ? (p.stats.totalScore / p.stats.gamesPlayed) : 0
+        winRate: this.calculateWinRate(p, tournament.settings.gameType),
+        avgScore: this.calculateAvgScore(p, tournament.settings.gameType)
       }))
       .sort((a, b) => {
         // Primary ranking: Average normalized score (higher is better)
@@ -335,6 +347,23 @@ class Tournament {
       });
 
     return standings;
+  }
+
+  calculateWinRate(participant, gameType) {
+    // Standard win rate calculation: games won / total games played
+    // For Texas Hold'em: games = hands, so this works consistently
+    return participant.stats.gamesPlayed > 0 ? (participant.stats.wins / participant.stats.gamesPlayed) : 0;
+  }
+
+  calculateAvgScore(participant, gameType) {
+    if (gameType === 'texas-holdem-many') {
+      // For Texas Hold'em: average score per poker session (not per hand)
+      const sessions = participant.pokerSessions || 0;
+      return sessions > 0 ? (participant.stats.totalScore / sessions) : 0;
+    } else {
+      // For other games: standard average score per game
+      return participant.stats.gamesPlayed > 0 ? (participant.stats.totalScore / participant.stats.gamesPlayed) : 0;
+    }
   }
 
   async getTournamentList() {

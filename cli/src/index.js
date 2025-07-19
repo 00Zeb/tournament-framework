@@ -116,8 +116,8 @@ program
         const ScoreNormalizationService = require('./services/score-normalization-service');
         const scoreService = new ScoreNormalizationService();
         
-        console.log(chalk.gray('Rank | Name | Games | Wins | Losses | Draws | DQs | Win Rate | Avg Score'));
-        console.log(chalk.gray('-----|------|-------|------|--------|-------|-----|----------|----------'));
+        console.log(chalk.gray('Rank | Name                 | Games | Wins | Losses | Draws | DQs | Win Rate | Avg Score'));
+        console.log(chalk.gray('-----|----------------------|-------|------|--------|-------|-----|----------|----------'));
         
         standings.forEach((participant, index) => {
           const rank = (index + 1).toString().padStart(4);

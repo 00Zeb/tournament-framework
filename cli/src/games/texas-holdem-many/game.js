@@ -31,22 +31,17 @@ class TexasHoldemGame {
         handsLost: 0,
         handsTied: 0,
         totalWinnings: 0,
-        disqualifications: 0,
-        // Tournament scoring fields
-        roundWins: 0,
-        roundLosses: 0,
-        roundTies: 0,
-        score: 0 // Total tournament points
+        disqualifications: 0
       })),
       dealerPosition: 0,
       currentPlayerIndex: 0,
       gamePhase: 'preflop', // preflop, flop, turn, river, showdown
       bettingRound: 1,
-      smallBlind: 10,
-      bigBlind: 20,
+      smallBlind: 50,
+      bigBlind: 100,
       // Betting limits for structured play
-      smallBet: 20, // Betting unit for preflop and flop
-      bigBet: 40,   // Betting unit for turn and river (2x small bet)
+      smallBet: 100, // Betting unit for preflop and flop
+      bigBet: 200,   // Betting unit for turn and river (2x small bet)
       maxRaisesPerRound: 3, // Maximum raises per betting round
       handCount: 1,
       maxHands: 10,
@@ -454,11 +449,15 @@ class TexasHoldemGame {
       // Only one player left, they win
       const winner = activePlayers[0];
       winner.chips += this.gameState.pot;
-      winner.handsWon++;
       winner.totalWinnings += this.gameState.pot;
+      winner.handsWon++;
 
-      // Score this hand for tournament
-      this.scoreHand([winner], allPlayers.filter(p => p !== winner));
+      // Mark all other players as having lost this hand
+      allPlayers.forEach(player => {
+        if (player !== winner) {
+          player.handsLost++;
+        }
+      });
 
       return {
         handNumber: this.gameState.handCount,
@@ -510,21 +509,31 @@ class TexasHoldemGame {
 
     winners.forEach(winner => {
       winner.chips += potShare;
-      winner.handsWon++;
       winner.totalWinnings += potShare;
       winnings[winner.name] = potShare;
     });
 
-    // Mark losers
-    activePlayers.forEach(player => {
-      if (!winners.includes(player)) {
-        player.handsLost++;
-      }
-    });
+    // Track hand outcomes for statistics
+    if (winners.length === 1) {
+      // Single winner
+      winners[0].handsWon++;
+      allPlayers.forEach(player => {
+        if (!winners.includes(player)) {
+          player.handsLost++;
+        }
+      });
+    } else {
+      // Multiple winners (tie)
+      winners.forEach(winner => {
+        winner.handsTied++;
+      });
+      allPlayers.forEach(player => {
+        if (!winners.includes(player)) {
+          player.handsLost++;
+        }
+      });
+    }
 
-    // Score this hand for tournament
-    const losers = allPlayers.filter(p => !winners.includes(p));
-    this.scoreHand(winners, losers);
 
     return {
       handNumber: this.gameState.handCount,
@@ -565,29 +574,6 @@ class TexasHoldemGame {
     };
   }
 
-  scoreHand(winners, losers) {
-    // Award points for this hand
-    if (winners.length === 1) {
-      // Single winner gets 1 point and a round win
-      winners[0].score += 1;
-      winners[0].roundWins++;
-
-      // All others get a round loss
-      losers.forEach(loser => {
-        loser.roundLosses++;
-      });
-    } else {
-      // Multiple winners tie - all get round ties
-      winners.forEach(winner => {
-        winner.roundTies++;
-      });
-
-      // Non-winners get round losses
-      losers.forEach(loser => {
-        loser.roundLosses++;
-      });
-    }
-  }
 
   isGameOver() {
     return this.gameState.gameOver || this.gameState.handCount > this.gameState.maxHands;
@@ -609,14 +595,16 @@ class TexasHoldemGame {
         score: player.chips, // Use chips as score for tournament ranking
         finalChips: player.chips,
         position: index + 1,
-        handsWon: player.handsWon,
-        handsLost: player.handsLost,
         totalWinnings: player.totalWinnings,
         disqualifications: player.disqualifications,
+        // Hand-level statistics for tournament tracking
+        handsWon: player.handsWon,
+        handsLost: player.handsLost,
+        handsTied: player.handsTied,
         // Fields expected by tournament framework
         roundWins: player.handsWon,
         roundLosses: player.handsLost,
-        roundTies: 0
+        roundTies: player.handsTied
       }))
     };
   }
