@@ -57,21 +57,23 @@ class ScoreNormalizationService {
       return -1.0;
     }
     
-    // Higher-Lower game plays 10 rounds by default
-    // Best case: 10 correct guesses = 10 points
-    // Worst case: 10 disqualifications = -20 points
-    // Average case: 0 points (mix of correct/incorrect)
+    // Higher-Lower game plays 10 rounds by default (1000-credit system)
+    // Best case: 10 correct guesses = +1000 credits (1000 + 10*100)
+    // Worst case: 10 disqualifications = -1000 credits (1000 + 10*(-200))
+    // Average case: 1000 credits (starting balance)
     const maxRounds = 10;
-    const maxScore = maxRounds * 1; // All correct
-    const minScore = maxRounds * -2; // All disqualified
+    const startingCredits = 1000;
+    const maxScore = startingCredits + (maxRounds * 100); // All correct
+    const minScore = startingCredits + (maxRounds * -200); // All disqualified
     
-    // Normalize score to [-1.0, +1.0]
-    if (score >= 0) {
-      // Positive scores: map [0, maxScore] to [0, +1.0]
-      return Math.min(1.0, score / maxScore);
+    // Normalize score to [-1.0, +1.0] relative to starting credits
+    const scoreRelativeToStart = score - startingCredits;
+    if (scoreRelativeToStart >= 0) {
+      // Positive relative scores: map [0, +1000] to [0, +1.0]
+      return Math.min(1.0, scoreRelativeToStart / (maxScore - startingCredits));
     } else {
-      // Negative scores: map [minScore, 0] to [-1.0, 0]
-      return Math.max(-1.0, score / Math.abs(minScore));
+      // Negative relative scores: map [-1000, 0] to [-1.0, 0]
+      return Math.max(-1.0, scoreRelativeToStart / Math.abs(minScore - startingCredits));
     }
   }
 
@@ -127,19 +129,19 @@ class ScoreNormalizationService {
     // Calculate average winnings per hand
     const avgWinningsPerHand = score / handsPlayed;
     
-    // In blackjack:
-    // - Best case: Blackjack every hand = +$15 per hand
-    // - Worst case: Bust every hand = -$10 per hand
-    // - Neutral: Break even = $0 per hand
-    const maxWinPerHand = 15; // Blackjack payout
-    const maxLossPerHand = -10; // Standard bet loss
+    // In blackjack (1000 credit system):
+    // - Best case: Blackjack every hand = +150 per hand
+    // - Worst case: Bust every hand = -100 per hand
+    // - Neutral: Break even = 0 per hand
+    const maxWinPerHand = 150; // Blackjack payout (100 * 1.5)
+    const maxLossPerHand = -100; // Standard bet loss
     
     // Normalize to [-1.0, +1.0] range
     if (avgWinningsPerHand >= 0) {
-      // Positive winnings: map [0, +15] to [0, +1.0]
+      // Positive winnings: map [0, +150] to [0, +1.0]
       return Math.min(1.0, avgWinningsPerHand / maxWinPerHand);
     } else {
-      // Negative winnings: map [-10, 0] to [-1.0, 0]
+      // Negative winnings: map [-100, 0] to [-1.0, 0]
       return Math.max(-1.0, avgWinningsPerHand / Math.abs(maxLossPerHand));
     }
   }
@@ -199,20 +201,20 @@ class ScoreNormalizationService {
   getRawScore(gameType, playerResult, gameContext) {
     switch (gameType) {
       case 'blackjack':
-        // Return total chip winnings/losses directly
-        return playerResult.score || 0;
+        // Return final credit balance directly (starts at 1000)
+        return playerResult.score || 1000;
       
       case 'texas-holdem-many':
-        // Return final chip count directly
-        return playerResult.score || 0;
+        // Return final chip count directly (starts at 1000)
+        return playerResult.score || 1000;
       
       case 'higher-lower':
-        // Return total points directly (no normalization)
-        return playerResult.score || 0;
+        // Return final credit balance directly (starts at 1000)
+        return playerResult.score || 1000;
       
       case 'higher-lower-many':
-        // Return total win/loss score directly (no normalization)
-        return playerResult.score || 0;
+        // Return final credit balance directly (starts at 1000)
+        return playerResult.score || 1000;
       
       default:
         throw new Error(`Raw score not implemented for game type: ${gameType}`);

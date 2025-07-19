@@ -14,7 +14,7 @@ class HigherLowerGame {
       currentCard: firstCard,
       players: this.players.map(player => ({
         ...player,
-        score: 0,
+        score: 1000, // Starting with 1000 base credits
         correctGuesses: 0,
         incorrectGuesses: 0,
         ties: 0,
@@ -110,10 +110,10 @@ class HigherLowerGame {
 
   calculateScore(result) {
     switch (result) {
-      case 'correct': return 1;
+      case 'correct': return 100; // Win credits in 1000-point system
       case 'tie': return 0;
-      case 'incorrect': return -1;
-      case 'disqualified': return -2; // Penalty for disqualification
+      case 'incorrect': return -100; // Lose credits in 1000-point system
+      case 'disqualified': return -200; // Penalty for disqualification
       default: return 0;
     }
   }

@@ -24,7 +24,7 @@ class HigherLowerManyGame {
       currentCard: firstCard,
       players: this.players.map(player => ({
         ...player,
-        score: 0, // Tournament points (wins/losses)
+        score: 1000, // Starting with 1000 base credits
         correctGuesses: 0,
         incorrectGuesses: 0,
         ties: 0,
@@ -157,11 +157,11 @@ class HigherLowerManyGame {
     const winners = roundResults.filter(r => r.roundScore === bestRoundScore);
     const losers = roundResults.filter(r => r.roundScore < bestRoundScore);
 
-    // Award tournament points
+    // Award tournament points (1000-credit system)
     winners.forEach(winner => {
       if (winners.length === 1) {
-        // Single winner gets +1
-        winner.player.score += 1;
+        // Single winner gets +100 credits
+        winner.player.score += 100;
         winner.player.roundWins++;
       } else {
         // Multiple winners tie, get 0 points
@@ -170,8 +170,8 @@ class HigherLowerManyGame {
     });
 
     losers.forEach(loser => {
-      // Losers get -1
-      loser.player.score -= 1;
+      // Losers get -100 credits
+      loser.player.score -= 100;
       loser.player.roundLosses++;
     });
   }

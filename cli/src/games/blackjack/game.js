@@ -25,8 +25,8 @@ class BlackjackGame {
       players: this.players.map(player => ({
         ...player,
         hand: [],
-        bet: 10, // Fixed bet for tournament play
-        score: 0,
+        bet: 100, // Fixed bet for tournament play (1000 credit system)
+        score: 1000, // Starting credits
         handsPlayed: 0,
         handsWon: 0,
         handsLost: 0,
@@ -86,7 +86,7 @@ class BlackjackGame {
     // Reset all players for new hand
     this.gameState.players.forEach(player => {
       player.hand = [];
-      player.bet = 10; // Reset bet to base amount for each hand
+      player.bet = 100; // Reset bet to base amount for each hand (1000 credit system)
       player.currentAction = null;
       player.isStanding = false;
       player.isBust = false;
