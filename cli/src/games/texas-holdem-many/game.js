@@ -546,6 +546,23 @@ class TexasHoldemGame {
 
   getGameStateForPlayer() {
     const currentPlayer = this.getCurrentPlayer();
+    const activePlayers = this.getActivePlayers();
+    
+    // Create comprehensive betting information for all players
+    const allPlayerBets = {};
+    const allPlayersInfo = this.gameState.players.map(p => {
+      allPlayerBets[p.name] = p.currentBet;
+      return {
+        name: p.name,
+        chips: p.chips,
+        currentBet: p.currentBet,
+        folded: p.folded,
+        allIn: p.allIn,
+        position: p.position,
+        isActive: !p.folded
+      };
+    });
+
     return {
       gamePhase: this.gameState.gamePhase,
       communityCards: this.gameState.communityCards,
@@ -554,12 +571,35 @@ class TexasHoldemGame {
       smallBlind: this.gameState.smallBlind,
       bigBlind: this.gameState.bigBlind,
       handCount: this.gameState.handCount,
+      dealerPosition: this.gameState.dealerPosition,
+      
+      // Enhanced player information
       playerState: {
         chips: currentPlayer.chips,
         holeCards: currentPlayer.holeCards,
         currentBet: currentPlayer.currentBet,
         position: currentPlayer.position
       },
+      
+      // All players with comprehensive status
+      allPlayers: allPlayersInfo,
+      
+      // Quick access to betting information
+      allPlayerBets: allPlayerBets,
+      
+      // Active players (not folded)
+      activePlayers: activePlayers.map(p => ({
+        name: p.name,
+        chips: p.chips,
+        currentBet: p.currentBet,
+        allIn: p.allIn,
+        position: p.position
+      })),
+      
+      // Count of players still in hand
+      playersInHand: activePlayers.length,
+      
+      // Enhanced opponent information (excluding current player)
       opponents: this.gameState.players
         .filter(p => p !== currentPlayer)
         .map(p => ({
@@ -568,8 +608,10 @@ class TexasHoldemGame {
           currentBet: p.currentBet,
           folded: p.folded,
           allIn: p.allIn,
-          position: p.position
+          position: p.position,
+          isActive: !p.folded
         })),
+        
       possibleActions: this.cardService.getPossibleActions(this.gameState, this.gameState.currentPlayerIndex)
     };
   }
