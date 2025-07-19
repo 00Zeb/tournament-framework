@@ -86,6 +86,7 @@ class BlackjackGame {
     // Reset all players for new hand
     this.gameState.players.forEach(player => {
       player.hand = [];
+      player.bet = 10; // Reset bet to base amount for each hand
       player.currentAction = null;
       player.isStanding = false;
       player.isBust = false;
