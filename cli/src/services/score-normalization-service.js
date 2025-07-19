@@ -189,7 +189,7 @@ class ScoreNormalizationService {
    * Check if a game type uses raw scores instead of normalization
    */
   usesRawScores(gameType) {
-    const rawScoreGames = ['blackjack', 'texas-holdem-many'];
+    const rawScoreGames = ['blackjack', 'texas-holdem-many', 'higher-lower', 'higher-lower-many'];
     return rawScoreGames.includes(gameType);
   }
 
@@ -204,6 +204,14 @@ class ScoreNormalizationService {
       
       case 'texas-holdem-many':
         // Return final chip count directly
+        return playerResult.score || 0;
+      
+      case 'higher-lower':
+        // Return total points directly (no normalization)
+        return playerResult.score || 0;
+      
+      case 'higher-lower-many':
+        // Return total win/loss score directly (no normalization)
         return playerResult.score || 0;
       
       default:

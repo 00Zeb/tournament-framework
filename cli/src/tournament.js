@@ -273,23 +273,14 @@ class Tournament {
       const participant = tournament.participants.find(p => p.name === player.name);
       if (participant) {
         if (isFreeForAll) {
-          // For free-for-all games
-          if (tournament.settings.gameType === 'texas-holdem-many') {
-            // Texas Hold'em: count each hand as a separate game for consistent statistics
-            participant.stats.gamesPlayed += (player.roundWins + player.roundLosses + player.roundTies);
-            participant.stats.wins += player.roundWins;
-            participant.stats.losses += player.roundLosses;
-            participant.stats.draws += player.roundTies;
-            
-            // Track poker sessions separately for scoring average
-            participant.pokerSessions = (participant.pokerSessions || 0) + 1;
-          } else {
-            // Other free-for-all games: each round counts as a separate game
-            participant.stats.gamesPlayed += (player.roundWins + player.roundLosses + player.roundTies);
-            participant.stats.wins += player.roundWins;
-            participant.stats.losses += player.roundLosses;
-            participant.stats.draws += player.roundTies;
-          }
+          // For free-for-all games: count each round as a separate game for consistent statistics
+          participant.stats.gamesPlayed += (player.roundWins + player.roundLosses + player.roundTies);
+          participant.stats.wins += player.roundWins;
+          participant.stats.losses += player.roundLosses;
+          participant.stats.draws += player.roundTies;
+          
+          // Track game sessions separately for scoring average (for all games)
+          participant.gameSessions = (participant.gameSessions || 0) + 1;
         } else {
           // For round-robin: traditional single game statistics
           participant.stats.gamesPlayed++;
@@ -356,14 +347,9 @@ class Tournament {
   }
 
   calculateAvgScore(participant, gameType) {
-    if (gameType === 'texas-holdem-many') {
-      // For Texas Hold'em: average score per poker session (not per hand)
-      const sessions = participant.pokerSessions || 0;
-      return sessions > 0 ? (participant.stats.totalScore / sessions) : 0;
-    } else {
-      // For other games: standard average score per game
-      return participant.stats.gamesPlayed > 0 ? (participant.stats.totalScore / participant.stats.gamesPlayed) : 0;
-    }
+    // For all games: average score per game session (not per individual round)
+    const sessions = participant.gameSessions || 0;
+    return sessions > 0 ? (participant.stats.totalScore / sessions) : 0;
   }
 
   async getTournamentList() {
