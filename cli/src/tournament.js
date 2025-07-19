@@ -1,6 +1,8 @@
 const gameRegistry = require('./games/game-registry');
 const path = require('path');
+const fs = require('fs').promises;
 const ScoreNormalizationService = require('./services/score-normalization-service');
+const ActionRecorder = require('./services/action-recorder');
 
 class Tournament {
   constructor(dependencies) {
@@ -137,7 +139,10 @@ class Tournament {
       randomService: this.randomService,
       fileService: this.fileService
     };
-    const game = gameRegistry.createGame(tournament.settings.gameType, dependencies, players);
+    // Create action recorder for this game
+    const actionRecorder = new ActionRecorder();
+    
+    const game = gameRegistry.createGame(tournament.settings.gameType, dependencies, players, actionRecorder);
     
     const gameStart = new Date().toISOString();
     bot1.onGameStart({ tournament: tournamentName, opponent: p2.name });
@@ -158,6 +163,11 @@ class Tournament {
       result: gameResult.gameResult,
       rounds: gameResult.roundResults
     };
+
+    // Save recording if available
+    if (gameResult.recording) {
+      await this.saveRecording(gameResult.recording, tournamentName);
+    }
 
     tournament.matches.push(match);
     this.updateParticipantStats(tournament, match);
@@ -208,8 +218,12 @@ class Tournament {
       randomService: this.randomService,
       fileService: this.fileService
     };
+    
+    // Create action recorder for this game
+    const actionRecorder = new ActionRecorder();
+    
     console.log(`Creating game instance for ${tournament.settings.gameType}...`);
-    const game = gameRegistry.createGame(tournament.settings.gameType, dependencies, players);
+    const game = gameRegistry.createGame(tournament.settings.gameType, dependencies, players, actionRecorder);
     
     const gameStart = new Date().toISOString();
     
@@ -239,6 +253,11 @@ class Tournament {
       rounds: gameResult.roundResults,
       matchType: 'free-for-all'
     };
+
+    // Save recording if available
+    if (gameResult.recording) {
+      await this.saveRecording(gameResult.recording, tournamentName);
+    }
 
     tournament.matches.push(match);
     this.updateParticipantStats(tournament, match);
@@ -473,6 +492,19 @@ class Tournament {
         winner: standings.length > 0 ? standings[0] : null
       }
     };
+  }
+
+  async saveRecording(recording, tournamentName) {
+    try {
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const filename = `texas-holdem-${timestamp}-${recording.gameId}.json`;
+      const filePath = path.join(__dirname, '..', 'data', 'recordings', filename);
+      
+      await fs.writeFile(filePath, JSON.stringify(recording, null, 2));
+      console.log(`Action recording saved to: ${filePath}`);
+    } catch (error) {
+      console.warn(`Failed to save action recording: ${error.message}`);
+    }
   }
 
   generateId() {

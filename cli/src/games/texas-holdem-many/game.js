@@ -1,7 +1,8 @@
 class TexasHoldemGame {
-  constructor(cardService, players) {
+  constructor(cardService, players, actionRecorder = null) {
     this.cardService = cardService;
     this.players = players;
+    this.actionRecorder = actionRecorder;
     this.gameState = this.initializeGame();
   }
 
@@ -60,6 +61,12 @@ class TexasHoldemGame {
     
     console.log(`Starting full game with ${this.players.length} players...`);
     
+    // Start recording if recorder is available
+    if (this.actionRecorder) {
+      const gameId = `game-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      this.actionRecorder.startRecording(gameId, 'texas-holdem-many', this.players);
+    }
+    
     while (!this.isGameOver()) {
       console.log(`Playing hand ${this.gameState.handCount}...`);
       const handResult = await this.playHand();
@@ -71,7 +78,8 @@ class TexasHoldemGame {
     
     return {
       roundResults: results,
-      gameResult: this.getGameResult()
+      gameResult: this.getGameResult(),
+      recording: this.actionRecorder ? this.actionRecorder.getRecording() : null
     };
   }
 
@@ -87,6 +95,17 @@ class TexasHoldemGame {
 
     // Reset for new hand
     this.resetForNewHand();
+
+    // Start recording hand if recorder is available
+    if (this.actionRecorder) {
+      this.actionRecorder.startHand(
+        this.gameState.handCount,
+        this.gameState.dealerPosition,
+        { small: this.gameState.smallBlind, big: this.gameState.bigBlind }
+      );
+      // Start the preflop phase for recording blinds
+      this.actionRecorder.startPhase('preflop', []);
+    }
 
     // Post blinds
     this.postBlinds();
@@ -115,6 +134,11 @@ class TexasHoldemGame {
     // Showdown
     const handResult = this.showdown();
     this.gameState.handResults.push(handResult);
+    
+    // Record hand result if recorder is available
+    if (this.actionRecorder) {
+      this.actionRecorder.recordHandResult(handResult);
+    }
 
     // Move dealer button
     this.gameState.dealerPosition = (this.gameState.dealerPosition + 1) % this.players.length;
@@ -161,6 +185,11 @@ class TexasHoldemGame {
     smallBlindPlayer.chips -= smallBlindAmount;
     smallBlindPlayer.currentBet = smallBlindAmount;
     this.gameState.pot += smallBlindAmount;
+    
+    // Record small blind if recorder is available
+    if (this.actionRecorder) {
+      this.actionRecorder.recordBlind(smallBlindPlayer, 'small_blind', smallBlindAmount, this.gameState);
+    }
 
     // Post big blind
     const bigBlindAmount = Math.min(this.gameState.bigBlind, bigBlindPlayer.chips);
@@ -168,6 +197,11 @@ class TexasHoldemGame {
     bigBlindPlayer.currentBet = bigBlindAmount;
     this.gameState.pot += bigBlindAmount;
     this.gameState.currentBet = bigBlindAmount;
+    
+    // Record big blind if recorder is available
+    if (this.actionRecorder) {
+      this.actionRecorder.recordBlind(bigBlindPlayer, 'big_blind', bigBlindAmount, this.gameState);
+    }
 
     // Set first player to act (after big blind)
     this.gameState.currentPlayerIndex = (bigBlindIndex + 1) % playersCount;
@@ -180,6 +214,11 @@ class TexasHoldemGame {
         player.holeCards.push(this.cardService.dealCard(this.gameState.deck));
       });
     }
+    
+    // Record hole card dealing if recorder is available
+    if (this.actionRecorder) {
+      this.actionRecorder.recordDealing(null, 'hole');
+    }
   }
 
   dealFlop() {
@@ -187,10 +226,18 @@ class TexasHoldemGame {
     this.cardService.dealCard(this.gameState.deck);
     
     // Deal 3 community cards
+    const flopCards = [];
     for (let i = 0; i < 3; i++) {
-      this.gameState.communityCards.push(this.cardService.dealCard(this.gameState.deck));
+      const card = this.cardService.dealCard(this.gameState.deck);
+      this.gameState.communityCards.push(card);
+      flopCards.push(card);
     }
     this.gameState.gamePhase = 'flop';
+    
+    // Record flop dealing if recorder is available
+    if (this.actionRecorder) {
+      this.actionRecorder.recordDealing(flopCards, 'flop');
+    }
   }
 
   dealTurn() {
@@ -198,8 +245,14 @@ class TexasHoldemGame {
     this.cardService.dealCard(this.gameState.deck);
     
     // Deal 1 community card
-    this.gameState.communityCards.push(this.cardService.dealCard(this.gameState.deck));
+    const turnCard = this.cardService.dealCard(this.gameState.deck);
+    this.gameState.communityCards.push(turnCard);
     this.gameState.gamePhase = 'turn';
+    
+    // Record turn dealing if recorder is available
+    if (this.actionRecorder) {
+      this.actionRecorder.recordDealing([turnCard], 'turn');
+    }
   }
 
   dealRiver() {
@@ -207,14 +260,25 @@ class TexasHoldemGame {
     this.cardService.dealCard(this.gameState.deck);
     
     // Deal 1 community card
-    this.gameState.communityCards.push(this.cardService.dealCard(this.gameState.deck));
+    const riverCard = this.cardService.dealCard(this.gameState.deck);
+    this.gameState.communityCards.push(riverCard);
     this.gameState.gamePhase = 'river';
+    
+    // Record river dealing if recorder is available
+    if (this.actionRecorder) {
+      this.actionRecorder.recordDealing([riverCard], 'river');
+    }
   }
 
   async playBettingRound(phase) {
     console.log(`Starting betting round: ${phase}`);
     this.gameState.gamePhase = phase;
     this.gameState.raisesThisRound = 0; // Reset raise counter for each betting round
+    
+    // Start recording phase if recorder is available (skip if preflop already started)
+    if (this.actionRecorder && phase !== 'preflop') {
+      this.actionRecorder.startPhase(phase, this.gameState.communityCards);
+    }
 
     // Reset current bets for new round (except preflop with blinds)
     if (phase !== 'preflop') {
@@ -274,12 +338,22 @@ class TexasHoldemGame {
       if (isDisqualified) {
         player.disqualifications++;
         action = { type: 'fold' };
+        
+        // Record disqualification if recorder is available
+        if (this.actionRecorder) {
+          this.actionRecorder.recordDisqualification(player, disqualificationReason);
+        }
       }
 
       console.log(`${player.name} action: ${JSON.stringify(action)}`);
 
       // Process action
       this.processAction(player, action);
+      
+      // Record action if recorder is available
+      if (this.actionRecorder) {
+        this.actionRecorder.recordAction(player, action, this.gameState);
+      }
       actionsThisRound++;
 
       // Remove player from players to act if they've acted

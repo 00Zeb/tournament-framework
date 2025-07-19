@@ -19,9 +19,9 @@ module.exports = {
   description: 'Classic Texas Hold\'em poker where players compete in tournament format with blinds and betting rounds',
   
   // Factory function to create a game instance
-  createGame(dependencies, players) {
+  createGame(dependencies, players, actionRecorder = null) {
     const cardService = new TexasHoldemCardService(dependencies.randomService);
-    return new TexasHoldemGame(cardService, players);
+    return new TexasHoldemGame(cardService, players, actionRecorder);
   },
   
   // Get available bots for this game

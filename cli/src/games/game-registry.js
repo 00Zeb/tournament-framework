@@ -49,9 +49,9 @@ class GameRegistry {
     }));
   }
 
-  createGame(gameType, dependencies, players) {
+  createGame(gameType, dependencies, players, actionRecorder = null) {
     const gameModule = this.getGame(gameType);
-    return gameModule.createGame(dependencies, players);
+    return gameModule.createGame(dependencies, players, actionRecorder);
   }
 
   getGameBots(gameType) {
